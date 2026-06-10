@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialSim - Sua Rede Social</title>
+    <title>Minha Rede Social</title>
     <style>
-        /* Estilos CSS */
+        /* CSS Integrado */
         :root {
             --primary-color: #1877f2;
             --bg-color: #f0f2f5;
@@ -28,6 +28,11 @@
             position: sticky;
             top: 0;
             z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -40,14 +45,14 @@
             text-decoration: none;
         }
 
-        .container {
+        main {
             max-width: 600px;
             margin: 20px auto;
             padding: 0 10px;
         }
 
         .create-post {
-            background: var(--white);
+            background-color: var(--white);
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
@@ -57,7 +62,7 @@
         textarea {
             width: 100%;
             border: none;
-            background: #f0f2f5;
+            background-color: #f0f2f5;
             border-radius: 20px;
             padding: 12px;
             resize: none;
@@ -66,7 +71,7 @@
             box-sizing: border-box;
         }
 
-        .btn-post {
+        .post-button {
             background-color: var(--primary-color);
             color: white;
             border: none;
@@ -75,19 +80,30 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
-            width: 100%;
+            float: right;
         }
 
-        .btn-post:hover {
+        .post-button:hover {
             background-color: #166fe5;
         }
 
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .feed {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
         .post {
-            background: var(--white);
+            background-color: var(--white);
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-            margin-bottom: 15px;
         }
 
         .post-header {
@@ -99,7 +115,7 @@
         .avatar {
             width: 40px;
             height: 40px;
-            background: #ccc;
+            background-color: #ccc;
             border-radius: 50%;
             margin-right: 10px;
         }
@@ -114,9 +130,8 @@
         }
 
         .post-content {
-            font-size: 15px;
+            margin-bottom: 15px;
             line-height: 1.4;
-            margin-bottom: 10px;
         }
 
         .post-actions {
@@ -132,12 +147,13 @@
             color: #65676b;
             font-weight: bold;
             cursor: pointer;
-            padding: 5px;
+            padding: 8px;
+            border-radius: 4px;
+            flex: 1;
         }
 
         .action-btn:hover {
-            background: #f2f2f2;
-            border-radius: 4px;
+            background-color: #f2f2f2;
         }
 
         .liked {
@@ -148,47 +164,47 @@
 <body>
 
     <header>
-        <a href="#" class="logo">SocialSim</a>
-        <div>
-            <span id="user-display">Eduardo</span>
+        <div class="header-content">
+            <a href="#" class="logo">ManusSocial</a>
+            <div class="user-info">
+                <strong>Você</strong>
+            </div>
         </div>
     </header>
 
-    <div class="container">
-        <!-- Criar Postagem -->
-        <div class="create-post">
-            <textarea id="post-input" rows="2" placeholder="No que você está pensando, Eduardo?"></textarea>
-            <button class="btn-post" onclick="addPost()">Publicar</button>
+    <main>
+        <div class="create-post clearfix">
+            <textarea id="postInput" placeholder="No que você está pensando?" rows="2"></textarea>
+            <button class="post-button" onclick="addPost()">Publicar</button>
         </div>
 
-        <!-- Feed de Postagens -->
-        <div id="feed">
-            <!-- Posts serão inseridos aqui -->
+        <div id="feed" class="feed">
+            <!-- Posts aparecerão aqui -->
         </div>
-    </div>
+    </main>
 
     <script>
-        // Lógica JavaScript
+        // JavaScript Integrado
         const feed = document.getElementById('feed');
-        const postInput = document.getElementById('post-input');
+        const postInput = document.getElementById('postInput');
 
-        // Dados iniciais (simulando banco de dados)
+        // Dados iniciais (simulando um banco de dados)
         let posts = [
             {
                 id: 1,
-                user: 'Maria Silva',
-                content: 'Olá pessoal! Acabei de entrar no SocialSim. Alguém por aí?',
-                time: 'Há 5 minutos',
+                user: "Eduardo Rodrigues",
+                content: "Olá pessoal! Acabei de criar esta rede social.",
+                time: "Agora mesmo",
                 likes: 0,
-                isLiked: false
+                liked: false
             },
             {
                 id: 2,
-                user: 'João Tech',
-                content: 'Codar em HTML e CSS é muito divertido! 🚀',
-                time: 'Há 15 minutos',
-                likes: 3,
-                isLiked: true
+                user: "Manus AI",
+                content: "Isso ficou incrível! O poder do HTML, CSS e JS em um único arquivo.",
+                time: "5 min atrás",
+                likes: 12,
+                liked: true
             }
         ];
 
@@ -207,8 +223,8 @@
                     </div>
                     <div class="post-content">${post.content}</div>
                     <div class="post-actions">
-                        <button class="action-btn ${post.isLiked ? 'liked' : ''}" onclick="toggleLike(${post.id})">
-                            ${post.isLiked ? 'Curtido' : 'Curtir'} (${post.likes})
+                        <button class="action-btn ${post.liked ? 'liked' : ''}" onclick="toggleLike(${post.id})">
+                            ${post.liked ? 'Curtido' : 'Curtir'} (${post.likes})
                         </button>
                         <button class="action-btn">Comentar</button>
                         <button class="action-btn">Compartilhar</button>
@@ -220,18 +236,18 @@
 
         function addPost() {
             const content = postInput.value.trim();
-            if (content === '') return;
+            if (content === "") return;
 
             const newPost = {
                 id: Date.now(),
-                user: 'Eduardo',
+                user: "Você",
                 content: content,
-                time: 'Agora mesmo',
+                time: "Agora mesmo",
                 likes: 0,
-                isLiked: false
+                liked: false
             };
 
-            posts.unshift(newPost); // Adiciona no início do array
+            posts.unshift(newPost);
             postInput.value = '';
             renderPosts();
         }
@@ -239,12 +255,12 @@
         function toggleLike(postId) {
             const post = posts.find(p => p.id === postId);
             if (post) {
-                if (post.isLiked) {
+                if (post.liked) {
                     post.likes--;
-                    post.isLiked = false;
+                    post.liked = false;
                 } else {
                     post.likes++;
-                    post.isLiked = true;
+                    post.liked = true;
                 }
                 renderPosts();
             }
