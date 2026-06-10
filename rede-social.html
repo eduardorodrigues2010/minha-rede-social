@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Rede Social</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr 300px;
+            gap: 20px;
+        }
+
+        /* Header */
+        header {
+            grid-column: 1 / -1;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            color: #667eea;
+            font-size: 28px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-actions button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .header-actions button:hover {
+            background: #764ba2;
+        }
+
+        /* Sidebar Left */
+        .sidebar-left {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .user-profile {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+        }
+
+        .user-profile h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .user-profile p {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+            cursor: pointer;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: #f0f0f0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Main Feed */
+        .main-feed {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Post Creator */
+        .post-creator {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+        }
+
+        .post-creator-header {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .post-creator-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .post-creator-input {
+            flex: 1;
+        }
+
+        .post-creator-input input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 14px;
+            background: white;
+            transition: border-color 0.3s;
+        }
+
+        .post-creator-input input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .post-creator-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .post-creator-actions button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .post-creator-actions button:hover {
+            background: #764ba2;
+        }
+
+        .post-creator-actions button.cancel {
+            background: #ddd;
+            color: #333;
+        }
+
+        .post-creator-actions button.cancel:hover {
+            background: #ccc;
+        }
+
+        /* Posts */
+        .feed {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .post {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #eee;
+            transition: box-shadow 0.3s;
+        }
+
+        .post:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .post-user {
+            display: flex;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .post-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .post-info h4 {
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .post-info p {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .post-menu {
+            cursor: pointer;
+            color: #999;
+            font-size: 20px;
+        }
+
+        .post-content {
+            margin-bottom: 15px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .post-image {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            max-height: 400px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .post-stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 15px;
+        }
+
+        .post-action {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s, background 0.3s;
+            border-radius: 5px;
+        }
+
+        .post-action:hover {
+            background: #f0f0f0;
+            color: #667eea;
+        }
+
+        .post-action.liked {
+            color: #e74c3c;
+        }
+
+        /* Sidebar Right */
+        .sidebar-right {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .sidebar-right h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .trending-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.3s;
+            padding-left: 10px;
+            border-radius: 5px;
+        }
+
+        .trending-item:hover {
+            background: #f9f9f9;
+        }
+
+        .trending-item:last-child {
+            border-bottom: none;
+        }
+
+        .trending-title {
+            color: #333;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .trending-count {
+            color: #999;
+            font-size: 12px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: #333;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .modal-form textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .modal-form textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .modal-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .modal-buttons button.primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .modal-buttons button.primary:hover {
+            background: #764ba2;
+        }
+
+        .modal-buttons button.secondary {
+            background: #ddd;
+            color: #333;
+        }
+
+        .modal-buttons button.secondary:hover {
+            background: #ccc;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr 300px;
+            }
+
+            .sidebar-left {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar-right {
+                display: none;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            header h1 {
+                font-size: 20px;
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>📱 Minha Rede Social</h1>
+            <div class="header-actions">
+                <button onclick="openPostModal()">Criar Post</button>
+                <button onclick="logout()">Sair</button>
+            </div>
+        </header>
+
+        <!-- Sidebar Left -->
+        <aside class="sidebar-left">
+            <div class="user-profile">
+                <div class="user-avatar">👤</div>
+                <h3>Seu Perfil</h3>
+                <p>@seu_usuario</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active" onclick="filterPosts('all'); return false;">🏠 Início</a></li>
+                <li><a href="#" onclick="filterPosts('following'); return false;">👥 Seguindo</a></li>
+                <li><a href="#" onclick="filterPosts('liked'); return false;">❤️ Curtidos</a></li>
+                <li><a href="#" onclick="filterPosts('comments'); return false;">💬 Comentários</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Feed -->
+        <main class="main-feed">
+            <!-- Post Creator -->
+            <div class="post-creator">
+                <div class="post-creator-header">
+                    <div class="post-creator-avatar">👤</div>
+                    <div class="post-creator-input">
+                        <input type="text" placeholder="No que você está pensando?" onclick="openPostModal()">
+                    </div>
+                </div>
+                <div class="post-creator-actions">
+                    <button onclick="openPostModal()">Publicar</button>
+                </div>
+            </div>
+
+            <!-- Feed -->
+            <div class="feed" id="feed">
+                <!-- Posts serão inseridos aqui -->
+            </div>
+        </main>
+
+        <!-- Sidebar Right -->
+        <aside class="sidebar-right">
+            <h3>🔥 Tendências</h3>
+            <div id="trending">
+                <!-- Tendências serão inseridas aqui -->
+            </div>
+        </aside>
+    </div>
+
+    <!-- Modal de Criar Post -->
+    <div class="modal" id="postModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Criar novo post</h2>
+                <button class="modal-close" onclick="closePostModal()">✕</button>
+            </div>
+            <form class="modal-form" onsubmit="createPost(event)">
+                <textarea id="postContent" placeholder="No que você está pensando?" required></textarea>
+                <div class="modal-buttons">
+                    <button type="button" class="secondary" onclick="closePostModal()">Cancelar</button>
+                    <button type="submit" class="primary">Publicar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Dados de posts
+        let posts = [
+            {
+                id: 1,
+                author: "João Silva",
+                username: "@joaosilva",
+                avatar: "👨",
+                content: "Que dia incrível! Acabei de terminar meu primeiro projeto web! 🎉",
+                timestamp: "2 horas atrás",
+                likes: 234,
+                comments: 45,
+                shares: 12,
+                liked: false,
+                image: null
+            },
+            {
+                id: 2,
+                author: "Maria Santos",
+                username: "@mariasantos",
+                avatar: "👩",
+                content: "Dica: sempre use CSS Grid para layouts complexos. Muito mais fácil que Flexbox em algumas situações!",
+                timestamp: "4 horas atrás",
+                likes: 567,
+                comments: 89,
+                shares: 34,
+                liked: false,
+                image: null
+            },
+            {
+                id: 3,
+                author: "Pedro Costa",
+                username: "@pedrocosta",
+                avatar: "👨",
+                content: "Desenvolvendo em JavaScript é como resolver um quebra-cabeça. Cada linha de código é uma peça! 🧩",
+                timestamp: "6 horas atrás",
+                likes: 345,
+                comments: 67,
+                shares: 23,
+                liked: false,
+                image: null
+            },
+            {
+                id: 4,
+                author: "Ana Oliveira",
+                username: "@anaoliveira",
+                avatar: "👩",
+                content: "Novo design responsivo pronto! Testei em todos os dispositivos e funcionou perfeitamente! 📱💻",
+                timestamp: "8 horas atrás",
+                likes: 456,
+                comments: 78,
+                shares: 45,
+                liked: false,
+                image: null
+            }
+        ];
+
+        // Dados de tendências
+        const trending = [
+            { title: "#WebDevelopment", count: "125K posts" },
+            { title: "#JavaScript", count: "98K posts" },
+            { title: "#CSS", count: "87K posts" },
+            { title: "#HTML5", count: "76K posts" },
+            { title: "#ReactJS", count: "65K posts" }
+        ];
+
+        // Inicializar página
+        function init() {
+            renderPosts();
+            renderTrending();
+        }
+
+        // Renderizar posts
+        function renderPosts(filter = 'all') {
+            const feed = document.getElementById('feed');
+            feed.innerHTML = '';
+
+            let filteredPosts = posts;
+
+            if (filter === 'liked') {
+                filteredPosts = posts.filter(post => post.liked);
+            }
+
+            if (filteredPosts.length === 0 && filter !== 'all') {
+                feed.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📭</div><p>Nenhum post encontrado</p></div>';
+                return;
+            }
+
+            filteredPosts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'post';
+                postElement.innerHTML = `
+                    <div class="post-header">
+                        <div class="post-user">
+                            <div class="post-avatar">${post.avatar}</div>
+                            <div class="post-info">
+                                <h4>${post.author}</h4>
+                                <p>${post.username} • ${post.timestamp}</p>
+                            </div>
+                        </div>
+                        <div class="post-menu">⋯</div>
+                    </div>
+                    <div class="post-content">${post.content}</div>
+                    ${post.image ? `<div class="post-image">${post.image}</div>` : ''}
+                    <div class="post-stats">
+                        <span>❤️ ${post.likes} curtidas</span>
+                        <span>💬 ${post.comments} comentários</span>
+                        <span>↗️ ${post.shares} compartilhamentos</span>
+                    </div>
+                    <div class="post-actions">
+                        <div class="post-action ${post.liked ? 'liked' : ''}" onclick="toggleLike(${post.id})">
+                            ${post.liked ? '❤️' : '🤍'} Curtir
+                        </div>
+                        <div class="post-action">💬 Comentar</div>
+                        <div class="post-action">↗️ Compartilhar</div>
+                    </div>
+                `;
+                feed.appendChild(postElement);
+            });
+        }
+
+        // Renderizar tendências
+        function renderTrending() {
+            const trendingContainer = document.getElementById('trending');
+            trendingContainer.innerHTML = '';
+
+            trending.forEach(trend => {
+                const trendElement = document.createElement('div');
+                trendElement.className = 'trending-item';
+                trendElement.innerHTML = `
+                    <div class="trending-title">${trend.title}</div>
+                    <div class="trending-count">${trend.count}</div>
+                `;
+                trendingContainer.appendChild(trendElement);
+            });
+        }
+
+        // Abrir modal de criar post
+        function openPostModal() {
+            document.getElementById('postModal').classList.add('active');
+        }
+
+        // Fechar modal de criar post
+        function closePostModal() {
+            document.getElementById('postModal').classList.remove('active');
+            document.getElementById('postContent').value = '';
+        }
+
+        // Criar novo post
+        function createPost(event) {
+            event.preventDefault();
+            const content = document.getElementById('postContent').value.trim();
+
+            if (content) {
+                const newPost = {
+                    id: posts.length + 1,
+                    author: "Você",
+                    username: "@seu_usuario",
+                    avatar: "👤",
+                    content: content,
+                    timestamp: "agora",
+                    likes: 0,
+                    comments: 0,
+                    shares: 0,
+                    liked: false,
+                    image: null
+                };
+
+                posts.unshift(newPost);
+                renderPosts();
+                closePostModal();
+            }
+        }
+
+        // Alternar curtida
+        function toggleLike(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.liked = !post.liked;
+                post.likes += post.liked ? 1 : -1;
+                renderPosts();
+            }
+        }
+
+        // Filtrar posts
+        function filterPosts(filter) {
+            document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+            event.target.classList.add('active');
+            renderPosts(filter);
+        }
+
+        // Logout
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                alert('Você foi desconectado!');
+            }
+        }
+
+        // Fechar modal ao clicar fora
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('postModal');
+            if (event.target === modal) {
+                closePostModal();
+            }
+        });
+
+        // Inicializar
+        init();
+    </script>
+</body>
+</html>
