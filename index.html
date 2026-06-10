@@ -1,975 +1,257 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialHub - Rede Social</title>
+    <title>SocialSim - Sua Rede Social</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Estilos CSS */
+        :root {
+            --primary-color: #1877f2;
+            --bg-color: #f0f2f5;
+            --white: #ffffff;
+            --text-color: #1c1e21;
+            --border-color: #dddfe2;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        header {
+            background-color: var(--white);
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
         }
 
         .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 280px 1fr 320px;
-            gap: 20px;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 10px;
         }
 
-        /* ===== HEADER ===== */
-        header {
-            grid-column: 1 / -1;
-            background: white;
-            padding: 15px 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        header h1 {
-            color: #667eea;
-            font-size: 28px;
-            font-weight: 700;
-        }
-
-        .header-search {
-            flex: 1;
-            margin: 0 30px;
-        }
-
-        .header-search input {
-            width: 100%;
-            padding: 10px 20px;
-            border: 2px solid #eee;
-            border-radius: 25px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-
-        .header-search input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 15px;
-        }
-
-        .header-actions button {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .header-actions button:hover {
-            background: #764ba2;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-
-        /* ===== SIDEBAR LEFT ===== */
-        .sidebar-left {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            height: fit-content;
-            position: sticky;
-            top: 20px;
-        }
-
-        .user-profile {
-            text-align: center;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-
-        .user-avatar {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 40px;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-        }
-
-        .user-profile h3 {
-            color: #333;
-            margin-bottom: 5px;
-            font-size: 16px;
-        }
-
-        .user-profile p {
-            color: #999;
-            font-size: 13px;
-        }
-
-        .user-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 2px solid #f0f0f0;
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-number {
-            color: #667eea;
-            font-weight: 700;
-            font-size: 18px;
-        }
-
-        .stat-label {
-            color: #999;
-            font-size: 12px;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-        }
-
-        .sidebar-menu li {
-            margin-bottom: 8px;
-        }
-
-        .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 15px;
-            color: #333;
-            text-decoration: none;
+        .create-post {
+            background: var(--white);
+            padding: 15px;
             border-radius: 8px;
-            transition: all 0.3s;
-            cursor: pointer;
-            font-size: 15px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
 
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            background: #f0f0f0;
-            color: #667eea;
-            font-weight: 600;
-        }
-
-        /* ===== MAIN FEED ===== */
-        .main-feed {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Post Creator */
-        .post-creator {
-            background: linear-gradient(135deg, #f5f7fa 0%, #f0f0f0 100%);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            border: 2px solid #eee;
-        }
-
-        .post-creator-header {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .post-creator-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            flex-shrink: 0;
-        }
-
-        .post-creator-input {
-            flex: 1;
-        }
-
-        .post-creator-input input {
+        textarea {
             width: 100%;
-            padding: 12px 18px;
-            border: 2px solid #ddd;
-            border-radius: 25px;
-            font-size: 14px;
-            background: white;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .post-creator-input input:hover,
-        .post-creator-input input:focus {
+            border: none;
+            background: #f0f2f5;
+            border-radius: 20px;
+            padding: 12px;
+            resize: none;
+            font-size: 16px;
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-sizing: border-box;
         }
 
-        .post-creator-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: space-between;
-            padding-top: 15px;
-            border-top: 2px solid #eee;
-        }
-
-        .post-creator-icons {
-            display: flex;
-            gap: 15px;
-        }
-
-        .post-creator-icons span {
-            cursor: pointer;
-            font-size: 18px;
-            transition: transform 0.3s;
-        }
-
-        .post-creator-icons span:hover {
-            transform: scale(1.2);
-        }
-
-        .post-creator-actions button {
-            background: #667eea;
+        .btn-post {
+            background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 10px 25px;
-            border-radius: 25px;
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: bold;
             cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
+            margin-top: 10px;
+            width: 100%;
         }
 
-        .post-creator-actions button:hover {
-            background: #764ba2;
-            transform: translateY(-2px);
-        }
-
-        /* Posts Feed */
-        .feed {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+        .btn-post:hover {
+            background-color: #166fe5;
         }
 
         .post {
-            background: #f9f9f9;
-            border-radius: 12px;
-            padding: 20px;
-            border: 2px solid #f0f0f0;
-            transition: all 0.3s;
-        }
-
-        .post:hover {
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-            border-color: #667eea;
+            background: var(--white);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
         }
 
         .post-header {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-
-        .post-user {
-            display: flex;
-            gap: 12px;
-            flex: 1;
-        }
-
-        .post-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
             align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 22px;
-            flex-shrink: 0;
+            margin-bottom: 10px;
         }
 
-        .post-info h4 {
-            color: #333;
-            margin-bottom: 3px;
-            font-size: 15px;
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: #ccc;
+            border-radius: 50%;
+            margin-right: 10px;
         }
 
-        .post-info p {
-            color: #999;
+        .username {
+            font-weight: bold;
+        }
+
+        .post-time {
             font-size: 12px;
-        }
-
-        .post-menu {
-            cursor: pointer;
-            color: #999;
-            font-size: 20px;
-            transition: color 0.3s;
-        }
-
-        .post-menu:hover {
-            color: #667eea;
+            color: #65676b;
         }
 
         .post-content {
-            margin-bottom: 15px;
-            color: #333;
-            line-height: 1.6;
-            font-size: 14px;
-        }
-
-        .post-image {
-            width: 100%;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            max-height: 400px;
-            object-fit: cover;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-            min-height: 200px;
-        }
-
-        .post-stats {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-top: 2px solid #eee;
-            border-bottom: 2px solid #eee;
-            font-size: 12px;
-            color: #999;
+            font-size: 15px;
+            line-height: 1.4;
+            margin-bottom: 10px;
         }
 
         .post-actions {
+            border-top: 1px solid var(--border-color);
+            padding-top: 10px;
             display: flex;
             justify-content: space-around;
-            padding-top: 12px;
         }
 
-        .post-action {
-            flex: 1;
-            text-align: center;
-            padding: 10px;
-            cursor: pointer;
-            color: #999;
-            transition: all 0.3s;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .post-action:hover {
-            background: #f0f0f0;
-            color: #667eea;
-        }
-
-        .post-action.liked {
-            color: #e74c3c;
-        }
-
-        /* ===== SIDEBAR RIGHT ===== */
-        .sidebar-right {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            height: fit-content;
-            position: sticky;
-            top: 20px;
-        }
-
-        .sidebar-right h3 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        .trending-item {
-            padding: 12px;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-radius: 8px;
-        }
-
-        .trending-item:hover {
-            background: #f9f9f9;
-            border-left: 3px solid #667eea;
-            padding-left: 9px;
-        }
-
-        .trending-item:last-child {
-            border-bottom: none;
-        }
-
-        .trending-title {
-            color: #333;
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 3px;
-        }
-
-        .trending-count {
-            color: #999;
-            font-size: 12px;
-        }
-
-        /* ===== MODAL ===== */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            max-width: 550px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-header h2 {
-            color: #333;
-            font-size: 20px;
-        }
-
-        .modal-close {
+        .action-btn {
             background: none;
             border: none;
-            font-size: 28px;
+            color: #65676b;
+            font-weight: bold;
             cursor: pointer;
-            color: #999;
-            transition: color 0.3s;
+            padding: 5px;
         }
 
-        .modal-close:hover {
-            color: #333;
+        .action-btn:hover {
+            background: #f2f2f2;
+            border-radius: 4px;
         }
 
-        .modal-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .modal-form textarea {
-            padding: 15px;
-            border: 2px solid #eee;
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 14px;
-            resize: vertical;
-            min-height: 140px;
-            transition: border-color 0.3s;
-        }
-
-        .modal-form textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-
-        .modal-buttons button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .modal-buttons button.primary {
-            background: #667eea;
-            color: white;
-        }
-
-        .modal-buttons button.primary:hover {
-            background: #764ba2;
-            transform: translateY(-2px);
-        }
-
-        .modal-buttons button.secondary {
-            background: #eee;
-            color: #333;
-        }
-
-        .modal-buttons button.secondary:hover {
-            background: #ddd;
-        }
-
-        /* ===== EMPTY STATE ===== */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #999;
-        }
-
-        .empty-state-icon {
-            font-size: 64px;
-            margin-bottom: 20px;
-        }
-
-        .empty-state p {
-            font-size: 16px;
-            color: #999;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1200px) {
-            .container {
-                grid-template-columns: 1fr 300px;
-            }
-
-            .sidebar-left {
-                display: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar-right {
-                display: none;
-            }
-
-            header {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            header h1 {
-                font-size: 22px;
-            }
-
-            .header-search {
-                margin: 0;
-            }
-
-            .main-feed {
-                padding: 15px;
-            }
-
-            .modal-content {
-                padding: 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            header h1 {
-                font-size: 18px;
-            }
-
-            .header-search {
-                display: none;
-            }
-
-            .post-creator-header {
-                gap: 10px;
-            }
-
-            .post-creator-avatar {
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
-            }
+        .liked {
+            color: var(--primary-color);
         }
     </style>
 </head>
 <body>
+
+    <header>
+        <a href="#" class="logo">SocialSim</a>
+        <div>
+            <span id="user-display">Eduardo</span>
+        </div>
+    </header>
+
     <div class="container">
-        <!-- Header -->
-        <header>
-            <h1>🚀 SocialHub</h1>
-            <div class="header-search">
-                <input type="text" placeholder="🔍 Buscar posts, pessoas...">
-            </div>
-            <div class="header-actions">
-                <button onclick="openPostModal()">✏️ Novo Post</button>
-                <button onclick="logout()">🚪 Sair</button>
-            </div>
-        </header>
+        <!-- Criar Postagem -->
+        <div class="create-post">
+            <textarea id="post-input" rows="2" placeholder="No que você está pensando, Eduardo?"></textarea>
+            <button class="btn-post" onclick="addPost()">Publicar</button>
+        </div>
 
-        <!-- Sidebar Left -->
-        <aside class="sidebar-left">
-            <div class="user-profile">
-                <div class="user-avatar">👤</div>
-                <h3>Seu Perfil</h3>
-                <p>@seu_usuario</p>
-                <div class="user-stats">
-                    <div class="stat">
-                        <div class="stat-number">1.2K</div>
-                        <div class="stat-label">Seguidores</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">342</div>
-                        <div class="stat-label">Seguindo</div>
-                    </div>
-                </div>
-            </div>
-            <ul class="sidebar-menu">
-                <li><a href="#" class="active" onclick="filterPosts('all'); return false;">🏠 Início</a></li>
-                <li><a href="#" onclick="filterPosts('following'); return false;">👥 Seguindo</a></li>
-                <li><a href="#" onclick="filterPosts('liked'); return false;">❤️ Curtidos</a></li>
-                <li><a href="#" onclick="filterPosts('comments'); return false;">💬 Comentários</a></li>
-                <li><a href="#" onclick="filterPosts('saved'); return false;">🔖 Salvos</a></li>
-            </ul>
-        </aside>
-
-        <!-- Main Feed -->
-        <main class="main-feed">
-            <!-- Post Creator -->
-            <div class="post-creator">
-                <div class="post-creator-header">
-                    <div class="post-creator-avatar">👤</div>
-                    <div class="post-creator-input">
-                        <input type="text" placeholder="No que você está pensando?" onclick="openPostModal()">
-                    </div>
-                </div>
-                <div class="post-creator-actions">
-                    <div class="post-creator-icons">
-                        <span title="Foto">📷</span>
-                        <span title="Vídeo">🎥</span>
-                        <span title="Emoji">😊</span>
-                        <span title="Localização">📍</span>
-                    </div>
-                    <button onclick="openPostModal()">Publicar</button>
-                </div>
-            </div>
-
-            <!-- Feed -->
-            <div class="feed" id="feed">
-                <!-- Posts serão inseridos aqui -->
-            </div>
-        </main>
-
-        <!-- Sidebar Right -->
-        <aside class="sidebar-right">
-            <h3>🔥 Tendências</h3>
-            <div id="trending">
-                <!-- Tendências serão inseridas aqui -->
-            </div>
-        </aside>
-    </div>
-
-    <!-- Modal de Criar Post -->
-    <div class="modal" id="postModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>✨ Criar novo post</h2>
-                <button class="modal-close" onclick="closePostModal()">✕</button>
-            </div>
-            <form class="modal-form" onsubmit="createPost(event)">
-                <textarea id="postContent" placeholder="No que você está pensando? Compartilhe seus pensamentos, fotos e vídeos!" required></textarea>
-                <div class="modal-buttons">
-                    <button type="button" class="secondary" onclick="closePostModal()">Cancelar</button>
-                    <button type="submit" class="primary">Publicar Agora</button>
-                </div>
-            </form>
+        <!-- Feed de Postagens -->
+        <div id="feed">
+            <!-- Posts serão inseridos aqui -->
         </div>
     </div>
 
     <script>
-        // ===== DADOS DE POSTS =====
+        // Lógica JavaScript
+        const feed = document.getElementById('feed');
+        const postInput = document.getElementById('post-input');
+
+        // Dados iniciais (simulando banco de dados)
         let posts = [
             {
                 id: 1,
-                author: "João Silva",
-                username: "@joaosilva",
-                avatar: "👨",
-                content: "Que dia incrível! Acabei de terminar meu primeiro projeto web com HTML, CSS e JavaScript! 🎉 Estou muito feliz com o resultado!",
-                timestamp: "2 horas atrás",
-                likes: 234,
-                comments: 45,
-                shares: 12,
-                liked: false,
-                image: null
+                user: 'Maria Silva',
+                content: 'Olá pessoal! Acabei de entrar no SocialSim. Alguém por aí?',
+                time: 'Há 5 minutos',
+                likes: 0,
+                isLiked: false
             },
             {
                 id: 2,
-                author: "Maria Santos",
-                username: "@mariasantos",
-                avatar: "👩",
-                content: "💡 Dica importante: sempre use CSS Grid para layouts complexos. Muito mais fácil que Flexbox em algumas situações! Quem mais concorda?",
-                timestamp: "4 horas atrás",
-                likes: 567,
-                comments: 89,
-                shares: 34,
-                liked: false,
-                image: null
-            },
-            {
-                id: 3,
-                author: "Pedro Costa",
-                username: "@pedrocosta",
-                avatar: "👨",
-                content: "Desenvolvendo em JavaScript é como resolver um quebra-cabeça. Cada linha de código é uma peça! 🧩 Mas quando tudo funciona... é mágico! ✨",
-                timestamp: "6 horas atrás",
-                likes: 345,
-                comments: 67,
-                shares: 23,
-                liked: false,
-                image: null
-            },
-            {
-                id: 4,
-                author: "Ana Oliveira",
-                username: "@anaoliveira",
-                avatar: "👩",
-                content: "Novo design responsivo pronto! Testei em todos os dispositivos e funcionou perfeitamente! 📱💻🖥️ Design responsivo é essencial nos dias de hoje!",
-                timestamp: "8 horas atrás",
-                likes: 456,
-                comments: 78,
-                shares: 45,
-                liked: false,
-                image: null
-            },
-            {
-                id: 5,
-                author: "Carlos Mendes",
-                username: "@carlosmendes",
-                avatar: "👨",
-                content: "Descobri um novo framework JavaScript que é absolutamente fantástico! A comunidade é incrível e a documentação é excelente. Recomendo! 🚀",
-                timestamp: "10 horas atrás",
-                likes: 289,
-                comments: 56,
-                shares: 19,
-                liked: false,
-                image: null
+                user: 'João Tech',
+                content: 'Codar em HTML e CSS é muito divertido! 🚀',
+                time: 'Há 15 minutos',
+                likes: 3,
+                isLiked: true
             }
         ];
 
-        // ===== DADOS DE TENDÊNCIAS =====
-        const trending = [
-            { title: "#WebDevelopment", count: "125K posts" },
-            { title: "#JavaScript", count: "98K posts" },
-            { title: "#CSS", count: "87K posts" },
-            { title: "#HTML5", count: "76K posts" },
-            { title: "#ReactJS", count: "65K posts" },
-            { title: "#Programação", count: "54K posts" }
-        ];
-
-        // ===== INICIALIZAR PÁGINA =====
-        function init() {
-            renderPosts();
-            renderTrending();
-        }
-
-        // ===== RENDERIZAR POSTS =====
-        function renderPosts(filter = 'all') {
-            const feed = document.getElementById('feed');
+        function renderPosts() {
             feed.innerHTML = '';
-
-            let filteredPosts = posts;
-
-            if (filter === 'liked') {
-                filteredPosts = posts.filter(post => post.liked);
-            }
-
-            if (filteredPosts.length === 0 && filter !== 'all') {
-                feed.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📭</div><p>Nenhum post encontrado nesta categoria</p></div>';
-                return;
-            }
-
-            filteredPosts.forEach(post => {
+            posts.forEach(post => {
                 const postElement = document.createElement('div');
                 postElement.className = 'post';
                 postElement.innerHTML = `
                     <div class="post-header">
-                        <div class="post-user">
-                            <div class="post-avatar">${post.avatar}</div>
-                            <div class="post-info">
-                                <h4>${post.author}</h4>
-                                <p>${post.username} • ${post.timestamp}</p>
-                            </div>
+                        <div class="avatar"></div>
+                        <div>
+                            <div class="username">${post.user}</div>
+                            <div class="post-time">${post.time}</div>
                         </div>
-                        <div class="post-menu">⋯</div>
                     </div>
                     <div class="post-content">${post.content}</div>
-                    ${post.image ? `<div class="post-image">${post.image}</div>` : ''}
-                    <div class="post-stats">
-                        <span>❤️ ${post.likes} curtidas</span>
-                        <span>💬 ${post.comments} comentários</span>
-                        <span>↗️ ${post.shares} compartilhamentos</span>
-                    </div>
                     <div class="post-actions">
-                        <div class="post-action ${post.liked ? 'liked' : ''}" onclick="toggleLike(${post.id})">
-                            ${post.liked ? '❤️' : '🤍'} Curtir
-                        </div>
-                        <div class="post-action">💬 Comentar</div>
-                        <div class="post-action">↗️ Compartilhar</div>
+                        <button class="action-btn ${post.isLiked ? 'liked' : ''}" onclick="toggleLike(${post.id})">
+                            ${post.isLiked ? 'Curtido' : 'Curtir'} (${post.likes})
+                        </button>
+                        <button class="action-btn">Comentar</button>
+                        <button class="action-btn">Compartilhar</button>
                     </div>
                 `;
                 feed.appendChild(postElement);
             });
         }
 
-        // ===== RENDERIZAR TENDÊNCIAS =====
-        function renderTrending() {
-            const trendingContainer = document.getElementById('trending');
-            trendingContainer.innerHTML = '';
+        function addPost() {
+            const content = postInput.value.trim();
+            if (content === '') return;
 
-            trending.forEach(trend => {
-                const trendElement = document.createElement('div');
-                trendElement.className = 'trending-item';
-                trendElement.innerHTML = `
-                    <div class="trending-title">${trend.title}</div>
-                    <div class="trending-count">${trend.count}</div>
-                `;
-                trendingContainer.appendChild(trendElement);
-            });
+            const newPost = {
+                id: Date.now(),
+                user: 'Eduardo',
+                content: content,
+                time: 'Agora mesmo',
+                likes: 0,
+                isLiked: false
+            };
+
+            posts.unshift(newPost); // Adiciona no início do array
+            postInput.value = '';
+            renderPosts();
         }
 
-        // ===== ABRIR MODAL =====
-        function openPostModal() {
-            document.getElementById('postModal').classList.add('active');
-        }
-
-        // ===== FECHAR MODAL =====
-        function closePostModal() {
-            document.getElementById('postModal').classList.remove('active');
-            document.getElementById('postContent').value = '';
-        }
-
-        // ===== CRIAR NOVO POST =====
-        function createPost(event) {
-            event.preventDefault();
-            const content = document.getElementById('postContent').value.trim();
-
-            if (content) {
-                const newPost = {
-                    id: posts.length + 1,
-                    author: "Você",
-                    username: "@seu_usuario",
-                    avatar: "👤",
-                    content: content,
-                    timestamp: "agora",
-                    likes: 0,
-                    comments: 0,
-                    shares: 0,
-                    liked: false,
-                    image: null
-                };
-
-                posts.unshift(newPost);
-                renderPosts();
-                closePostModal();
-                alert('✅ Post publicado com sucesso!');
-            }
-        }
-
-        // ===== ALTERNAR CURTIDA =====
         function toggleLike(postId) {
             const post = posts.find(p => p.id === postId);
             if (post) {
-                post.liked = !post.liked;
-                post.likes += post.liked ? 1 : -1;
+                if (post.isLiked) {
+                    post.likes--;
+                    post.isLiked = false;
+                } else {
+                    post.likes++;
+                    post.isLiked = true;
+                }
                 renderPosts();
             }
         }
 
-        // ===== FILTRAR POSTS =====
-        function filterPosts(filter) {
-            document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
-            event.target.closest('a').classList.add('active');
-            renderPosts(filter);
-        }
-
-        // ===== LOGOUT =====
-        function logout() {
-            if (confirm('Tem certeza que deseja sair da sua conta?')) {
-                alert('👋 Você foi desconectado! Até logo!');
-            }
-        }
-
-        // ===== FECHAR MODAL AO CLICAR FORA =====
-        document.addEventListener('click', function(event) {
-            const modal = document.getElementById('postModal');
-            if (event.target === modal) {
-                closePostModal();
-            }
-        });
-
-        // ===== INICIALIZAR =====
-        init();
+        // Inicializar feed
+        renderPosts();
     </script>
 </body>
 </html>
