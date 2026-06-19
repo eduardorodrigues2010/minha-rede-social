@@ -260,12 +260,36 @@
         let users = JSON.parse(localStorage.getItem('social_users')) || [];
         
         const musicData = [
-            { name: "The Weeknd", type: "Artista", info: "100M ouvintes mensais", icon: "🎤" },
-            { name: "Taylor Swift", type: "Artista", info: "95M ouvintes mensais", icon: "🎸" },
-            { name: "Top Brasil 2024", type: "Playlist", info: "50 músicas", icon: "📻" },
-            { name: "Chill Vibes", type: "Playlist", info: "Para relaxar", icon: "🌊" },
-            { name: "Anitta", type: "Artista", info: "Pop/Funk", icon: "🎤" },
-            { name: "Rock Classics", type: "Playlist", info: "Os melhores solos", icon: "⚡" }
+            // Sertanejo
+            { name: "Ana Castela", type: "Sertanejo", info: "A Boiadeira", icon: "🤠" },
+            { name: "Gusttavo Lima", type: "Sertanejo", info: "O Embaixador", icon: "🏛️" },
+            { name: "Jorge & Mateus", type: "Sertanejo", info: "Os Reis do Sertanejo", icon: "🎸" },
+            { name: "Marília Mendonça", type: "Sertanejo", info: "Eterna Rainha da Sofrência", icon: "👑" },
+            { name: "Luan Santana", type: "Sertanejo", info: "Luan City", icon: "✨" },
+            
+            // Funk
+            { name: "MC Ryan SP", type: "Funk", info: "O Tubarão", icon: "🦈" },
+            { name: "MC Daniel", type: "Funk", info: "O Falcão", icon: "🦅" },
+            { name: "Ludmilla", type: "Funk/Pop", info: "Numanice", icon: "🎤" },
+            { name: "Luísa Sonza", type: "Pop", info: "Escândalo Íntimo", icon: "🔥" },
+            { name: "Anitta", type: "Pop/Funk", info: "Girl From Rio", icon: "🇧🇷" },
+            
+            // MPB / Rock / Outros
+            { name: "Caetano Veloso", type: "MPB", info: "Lenda da MPB", icon: "🎼" },
+            { name: "Gilberto Gil", type: "MPB", info: "Mestre da Música", icon: "🎸" },
+            { name: "Legião Urbana", type: "Rock", info: "Clássicos do Rock Nacional", icon: "⚡" },
+            { name: "Ivete Sangalo", type: "Axé", info: "Rainha do Axé", icon: "🎊" },
+            { name: "Pabllo Vittar", type: "Pop", info: "Ícone Pop", icon: "🌈" },
+            { name: "Thiaguinho", type: "Pagode", info: "Tardezinha", icon: "🥁" },
+            { name: "Zeca Pagodinho", type: "Samba", info: "O Dono do Samba", icon: "🍻" },
+            { name: "Matuê", type: "Trap", info: "30PRAUM", icon: "🌵" },
+            { name: "Felipe Ret", type: "Rap", info: "Vivaz", icon: "🎤" },
+            { name: "Djavan", type: "MPB", info: "Voz Única", icon: "🎷" },
+            
+            // Playlists Brasil
+            { name: "Top Brasil 2024", type: "Playlist", info: "As mais tocadas no país", icon: "📻" },
+            { name: "Pagode de Domingo", type: "Playlist", info: "O melhor do samba e pagode", icon: "🥁" },
+            { name: "Sertanejo Universitário", type: "Playlist", info: "Os hits do momento", icon: "🤠" }
         ];
 
         let posts = [
