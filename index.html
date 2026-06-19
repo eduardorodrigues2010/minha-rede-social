@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minha Rede Musical</title>
-    <!-- Script Oficial do Google Identity Services -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         :root {
-            --primary-color: #1DB954; /* Verde estilo Spotify */
+            --primary-color: #1DB954;
             --bg-color: #121212;
             --card-bg: #181818;
             --text-main: #FFFFFF;
@@ -76,170 +75,166 @@
             letter-spacing: 1px;
             transition: 0.3s;
         }
-        .btn-main:hover { transform: scale(1.02); background-color: #1ed760; }
-
-        .google-btn-wrapper { margin: 20px 0; display: flex; justify-content: center; }
 
         .divider { border-bottom: 1px solid var(--border); margin: 25px 0; position: relative; }
         .divider span { position: absolute; top: -10px; background: var(--card-bg); padding: 0 15px; left: 50%; transform: translateX(-50%); color: var(--text-sub); font-size: 12px; }
 
-        /* Estilos do Feed Musical */
+        /* Estilos do Feed e Pesquisa */
         header {
-            background-color: rgba(0,0,0,0.8);
-            padding: 15px 30px;
+            background-color: rgba(0,0,0,0.9);
+            padding: 10px 30px;
             position: sticky;
             top: 0;
             z-index: 100;
             backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
         }
 
         .header-content {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 20px;
         }
 
-        .logo { color: var(--primary-color); font-size: 26px; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .logo { color: var(--primary-color); font-size: 22px; font-weight: bold; text-decoration: none; min-width: 180px; }
 
-        .btn-logout { background: transparent; border: 1px solid var(--text-sub); color: var(--text-sub); padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; }
-        .btn-logout:hover { border-color: white; color: white; }
+        /* Barra de Pesquisa */
+        .search-bar {
+            flex-grow: 1;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            background-color: #242424;
+            border: 1px solid transparent;
+            border-radius: 20px;
+            padding: 10px 20px 10px 45px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .search-bar input:focus { border-color: var(--text-sub); background-color: #2a2a2a; }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-sub);
+        }
+
+        .btn-logout { background: transparent; border: 1px solid var(--text-sub); color: var(--text-sub); padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 13px; }
 
         main { max-width: 600px; margin: 30px auto; padding: 0 15px; }
 
-        .create-post {
+        /* Resultados da Pesquisa */
+        .search-results {
             background-color: var(--card-bg);
-            padding: 20px;
             border-radius: 8px;
+            padding: 20px;
             margin-bottom: 30px;
+            border: 1px solid var(--primary-color);
         }
 
-        .create-post h3 { margin-top: 0; font-size: 18px; margin-bottom: 15px; }
-
-        textarea {
-            width: 100%;
-            border: none;
-            background-color: var(--input-bg);
-            color: var(--text-main);
-            border-radius: 8px;
-            padding: 15px;
-            resize: none;
-            font-size: 16px;
-            outline: none;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-        }
-
-        .post-button {
-            background-color: var(--primary-color);
-            color: black;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 25px;
-            font-weight: bold;
+        .result-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 4px;
             cursor: pointer;
-            float: right;
+            transition: 0.2s;
         }
 
-        .feed { display: flex; flex-direction: column; gap: 20px; }
+        .result-item:hover { background-color: #282828; }
 
-        .post {
-            background-color: var(--card-bg);
-            padding: 20px;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
-        .post:hover { background-color: #282828; }
+        .result-img { width: 50px; height: 50px; border-radius: 4px; background-color: #333; margin-right: 15px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
 
-        .post-header { display: flex; align-items: center; margin-bottom: 15px; }
-        .avatar { width: 45px; height: 45px; background: linear-gradient(45deg, #1db954, #191414); border-radius: 50%; margin-right: 15px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        .username { font-weight: bold; font-size: 16px; }
-        .post-time { font-size: 12px; color: var(--text-sub); margin-top: 3px; }
-        
-        .music-tag {
-            display: inline-block;
-            background-color: #2e2e2e;
-            color: var(--primary-color);
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 13px;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
+        .result-info h4 { margin: 0; font-size: 15px; }
+        .result-info p { margin: 3px 0 0; font-size: 13px; color: var(--text-sub); }
 
-        .post-content { line-height: 1.6; font-size: 16px; margin-bottom: 15px; }
-        
-        .post-actions { border-top: 1px solid var(--border); padding-top: 15px; display: flex; gap: 20px; }
-        .action-btn { background: none; border: none; color: var(--text-sub); font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; }
-        .action-btn:hover { color: white; }
-        .liked { color: var(--primary-color) !important; }
+        /* Feed */
+        .create-post { background-color: var(--card-bg); padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+        textarea { width: 100%; border: none; background-color: var(--input-bg); color: var(--text-main); border-radius: 8px; padding: 15px; resize: none; font-size: 15px; outline: none; box-sizing: border-box; }
+        .post-button { background-color: var(--primary-color); color: black; border: none; padding: 10px 25px; border-radius: 25px; font-weight: bold; cursor: pointer; float: right; margin-top: 10px; }
+
+        .post { background-color: var(--card-bg); padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .post-header { display: flex; align-items: center; margin-bottom: 12px; }
+        .avatar { width: 40px; height: 40px; background: var(--primary-color); border-radius: 50%; margin-right: 12px; display: flex; align-items: center; justify-content: center; color: black; font-weight: bold; }
+        .username { font-weight: bold; }
+        .post-content { line-height: 1.5; margin-bottom: 15px; }
+        .post-actions { border-top: 1px solid var(--border); padding-top: 10px; display: flex; gap: 20px; color: var(--text-sub); font-size: 14px; }
     </style>
 </head>
 <body>
 
-    <!-- TELA DE LOGIN -->
+    <!-- LOGIN/CADASTRO (Igual ao anterior) -->
     <div id="loginPage" class="auth-container">
         <div class="auth-card">
             <h2>🎵 Minha Musical</h2>
-            <p>Sua trilha sonora começa aqui.</p>
-            
-            <div class="google-btn-wrapper">
-                <div id="g_id_onload"
-                     data-client_id="SUA_CHAVE_AQUI.apps.googleusercontent.com"
-                     data-callback="handleCredentialResponse"
-                     data-auto_prompt="true">
-                </div>
-                <div class="g_id_signin" data-type="standard" data-theme="filled_black" data-shape="pill"></div>
-            </div>
-
-            <div class="divider"><span>ou entre com e-mail</span></div>
-
+            <p>Descubra sua próxima música favorita.</p>
             <div class="auth-form">
-                <input type="text" id="loginEmail" placeholder="Usuário musical">
-                <input type="password" id="loginPass" placeholder="Sua senha secreta">
-                <button class="btn-main" onclick="handleLogin()">Entrar na Roda</button>
+                <input type="text" id="loginEmail" placeholder="Usuário">
+                <input type="password" id="loginPass" placeholder="Senha">
+                <button class="btn-main" onclick="handleLogin()">Entrar</button>
             </div>
-            
-            <div class="divider"></div>
-            <p style="font-size: 14px;">Novo por aqui? <a href="#" onclick="showPage('registerPage')" style="color: var(--primary-color); text-decoration: none; font-weight: bold;">Crie sua conta</a></p>
+            <div class="divider"><span>ou</span></div>
+            <button class="btn-main" style="background: transparent; border: 1px solid var(--text-sub); color: white;" onclick="showPage('registerPage')">Criar Conta</button>
         </div>
     </div>
 
-    <!-- TELA DE CADASTRO -->
     <div id="registerPage" class="auth-container hidden">
         <div class="auth-card">
-            <h2>Participe do Show</h2>
-            <p>Crie seu perfil e compartilhe seu som.</p>
+            <h2>Criar Perfil</h2>
             <div class="auth-form">
-                <input type="text" id="regName" placeholder="Seu nome artístico">
+                <input type="text" id="regName" placeholder="Nome completo">
                 <input type="text" id="regUser" placeholder="Nome de usuário">
-                <input type="password" id="regPass" placeholder="Escolha uma senha forte">
-                <button class="btn-main" onclick="handleRegister()">Começar a Tocar</button>
+                <input type="password" id="regPass" placeholder="Senha">
+                <button class="btn-main" onclick="handleRegister()">Cadastrar e Entrar</button>
             </div>
-            <a href="#" onclick="showPage('loginPage')" style="color: var(--text-sub); text-decoration: none; font-size: 14px; display: block; margin-top: 20px;">Já sou da banda (Login)</a>
+            <p style="margin-top: 20px; font-size: 14px;"><a href="#" onclick="showPage('loginPage')" style="color: var(--text-sub);">Voltar ao login</a></p>
         </div>
     </div>
 
-    <!-- TELA DO FEED -->
+    <!-- FEED E PESQUISA -->
     <div id="mainPage" class="hidden">
         <header>
             <div class="header-content">
-                <a href="#" class="logo"><span>🎵</span> Minha Musical</a>
+                <a href="#" class="logo">🎵 Minha Musical</a>
+                
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="Pesquisar artistas ou playlists..." onkeyup="handleSearch(event)">
+                </div>
+
                 <div class="user-info">
-                    <span id="displayUserName" style="margin-right: 15px; font-weight: bold; color: var(--primary-color);"></span>
                     <button class="btn-logout" onclick="handleLogout()">Sair</button>
                 </div>
             </div>
         </header>
 
         <main>
+            <!-- Área de Resultados de Pesquisa (Oculta por padrão) -->
+            <div id="searchResults" class="search-results hidden">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="margin: 0;">Resultados da busca</h3>
+                    <button onclick="closeSearch()" style="background: none; border: none; color: var(--text-sub); cursor: pointer;">Fechar X</button>
+                </div>
+                <div id="resultsList"></div>
+            </div>
+
             <div class="create-post">
-                <h3>O que você está ouvindo agora?</h3>
-                <textarea id="postInput" placeholder="Compartilhe uma música, álbum ou artista..." rows="3"></textarea>
-                <button class="post-button" onclick="addPost()">Postar Som</button>
+                <textarea id="postInput" placeholder="O que você está ouvindo agora?" rows="2"></textarea>
+                <button class="post-button" onclick="addPost()">Postar</button>
                 <div style="clear: both;"></div>
             </div>
+
             <div id="feed" class="feed"></div>
         </main>
     </div>
@@ -248,58 +243,90 @@
         let currentUser = null;
         let users = JSON.parse(localStorage.getItem('social_users')) || [];
         
+        // Banco de dados simulado para pesquisa
+        const musicData = [
+            { name: "The Weeknd", type: "Artista", info: "100M ouvintes mensais", icon: "🎤" },
+            { name: "Taylor Swift", type: "Artista", info: "95M ouvintes mensais", icon: "🎸" },
+            { name: "Top Brasil 2024", type: "Playlist", info: "50 músicas", icon: "📻" },
+            { name: "Chill Vibes", type: "Playlist", info: "Para relaxar", icon: "🌊" },
+            { name: "Anitta", type: "Artista", info: "Pop/Funk", icon: "🎤" },
+            { name: "Rock Classics", type: "Playlist", info: "Os melhores solos", icon: "⚡" }
+        ];
+
         let posts = [
-            { id: 1, user: "Eduardo Rodrigues", content: "O novo álbum do Kendrick Lamar está incrível! Qual a opinião de vocês?", tag: "Álbum Novo", time: "15 min atrás", likes: 12, liked: false },
-            { id: 2, user: "Manus AI", content: "Acabei de descobrir uma playlist de Jazz fenomenal para trabalhar.", tag: "Playlist", time: "1h atrás", likes: 24, liked: true }
+            { id: 1, user: "Eduardo Rodrigues", content: "Ouvindo o novo álbum da Billie Eilish. Incrível!", time: "10 min atrás" },
+            { id: 2, user: "Manus AI", content: "A playlist 'Chill Vibes' é perfeita para codar.", time: "1h atrás" }
         ];
 
         function showPage(pageId) {
-            document.getElementById('loginPage').classList.add('hidden');
-            document.getElementById('registerPage').classList.add('hidden');
-            document.getElementById('mainPage').classList.add('hidden');
+            document.querySelectorAll('.auth-container, #mainPage').forEach(el => el.classList.add('hidden'));
             document.getElementById(pageId).classList.remove('hidden');
         }
 
-        // --- LÓGICA DO GOOGLE ---
-        function handleCredentialResponse(response) {
-            const responsePayload = parseJwt(response.credential);
-            loginUser({ name: responsePayload.name, username: responsePayload.email });
+        // --- PESQUISA ---
+        function handleSearch(event) {
+            const query = event.target.value.toLowerCase();
+            const resultsArea = document.getElementById('searchResults');
+            const resultsList = document.getElementById('resultsList');
+
+            if (query.length < 2) {
+                resultsArea.classList.add('hidden');
+                return;
+            }
+
+            const filtered = musicData.filter(item => 
+                item.name.toLowerCase().includes(query) || item.type.toLowerCase().includes(query)
+            );
+
+            resultsList.innerHTML = '';
+            if (filtered.length > 0) {
+                filtered.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'result-item';
+                    div.onclick = () => alert('Tocando: ' + item.name);
+                    div.innerHTML = `
+                        <div class="result-img">${item.icon}</div>
+                        <div class="result-info">
+                            <h4>${item.name}</h4>
+                            <p>${item.type} • ${item.info}</p>
+                        </div>
+                    `;
+                    resultsList.appendChild(div);
+                });
+                resultsArea.classList.remove('hidden');
+            } else {
+                resultsList.innerHTML = '<p style="text-align: center; color: var(--text-sub);">Nenhum resultado encontrado.</p>';
+                resultsArea.classList.remove('hidden');
+            }
         }
 
-        function parseJwt (token) {
-            var base64Url = token.split('.')[1];
-            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(jsonPayload);
-        };
+        function closeSearch() {
+            document.getElementById('searchResults').classList.add('hidden');
+            document.getElementById('searchInput').value = '';
+        }
 
-        // --- AUTENTICAÇÃO ---
+        // --- AUTH ---
         function handleRegister() {
             const name = document.getElementById('regName').value;
             const user = document.getElementById('regUser').value;
             const pass = document.getElementById('regPass').value;
-            if(!name || !user || !pass) return alert("Preencha todos os campos!");
-            
+            if(!name || !user || !pass) return alert("Preencha tudo!");
             const newUser = { name, username: user, password: pass };
             users.push(newUser);
             localStorage.setItem('social_users', JSON.stringify(users));
-            alert("Perfil criado! Bem-vindo ao show.");
             loginUser(newUser);
         }
 
         function handleLogin() {
-            const userVal = document.getElementById('loginEmail').value.trim();
+            const userVal = document.getElementById('loginEmail').value;
             const passVal = document.getElementById('loginPass').value;
             const user = users.find(u => u.username === userVal && u.password === passVal);
             if(user) loginUser(user);
-            else alert("Usuário ou senha não encontrados!");
+            else alert("Erro!");
         }
 
         function loginUser(user) {
             currentUser = user;
-            document.getElementById('displayUserName').innerText = user.name;
             showPage('mainPage');
             renderPosts();
         }
@@ -314,48 +341,23 @@
             const feed = document.getElementById('feed');
             feed.innerHTML = '';
             posts.forEach(post => {
-                const postElement = document.createElement('div');
-                postElement.className = 'post';
-                postElement.innerHTML = `
-                    <div class="post-header">
-                        <div class="avatar">${post.user[0]}</div>
-                        <div>
-                            <div class="username">${post.user}</div>
-                            <div class="post-time">${post.time}</div>
-                        </div>
-                    </div>
-                    ${post.tag ? `<span class="music-tag"># ${post.tag}</span>` : ''}
+                const div = document.createElement('div');
+                div.className = 'post';
+                div.innerHTML = `
+                    <div class="post-header"><div class="avatar">${post.user[0]}</div><div><div class="username">${post.user}</div><div class="post-time">${post.time}</div></div></div>
                     <div class="post-content">${post.content}</div>
-                    <div class="post-actions">
-                        <button class="action-btn ${post.liked ? 'liked' : ''}" onclick="toggleLike(${post.id})">
-                            ❤️ ${post.likes} Curtidas
-                        </button>
-                        <button class="action-btn">💬 Comentar</button>
-                    </div>
+                    <div class="post-actions"><span>❤️ Curtir</span><span>💬 Comentar</span></div>
                 `;
-                feed.appendChild(postElement);
+                feed.appendChild(div);
             });
         }
 
         function addPost() {
             const input = document.getElementById('postInput');
             if (!input.value.trim()) return;
-            posts.unshift({ 
-                id: Date.now(), 
-                user: currentUser.name, 
-                content: input.value, 
-                tag: "Minha Escolha",
-                time: "Agora mesmo", 
-                likes: 0, 
-                liked: false 
-            });
+            posts.unshift({ id: Date.now(), user: currentUser.name, content: input.value, time: "Agora mesmo" });
             input.value = '';
             renderPosts();
-        }
-
-        function toggleLike(id) {
-            const post = posts.find(p => p.id === id);
-            if(post) { post.liked ? post.likes-- : post.likes++; post.liked = !post.liked; renderPosts(); }
         }
     </script>
 </body>
