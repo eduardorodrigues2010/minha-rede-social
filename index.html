@@ -10,10 +10,11 @@
         :root {
             --primary-color: #1877f2;
             --secondary-color: #42b72a;
-            --bg-color: #f0f2f5;
-            --white: #ffffff;
-            --text-color: #1c1e21;
-            --border-color: #dddfe2;
+            --bg-color: #18191a; /* Fundo escuro */
+            --white: #242526;    /* Cor dos cartões/cabeçalho */
+            --text-color: #e4e6eb; /* Texto claro */
+            --border-color: #3e4042;
+            --input-bg: #3a3b3c;
         }
 
         body {
@@ -46,13 +47,15 @@
         }
 
         .auth-card h2 { color: var(--primary-color); margin-bottom: 10px; font-size: 32px; }
-        .auth-card p { color: #606770; margin-bottom: 25px; }
+        .auth-card p { color: #b0b3b8; margin-bottom: 25px; }
 
         .auth-form input {
             width: 100%;
             padding: 14px;
             margin-bottom: 12px;
             border: 1px solid var(--border-color);
+            background-color: var(--input-bg);
+            color: var(--text-color);
             border-radius: 6px;
             font-size: 16px;
             box-sizing: border-box;
@@ -86,11 +89,11 @@
         .divider span {
             position: absolute;
             top: -10px;
-            background: white;
+            background: var(--white);
             padding: 0 10px;
             left: 50%;
             transform: translateX(-50%);
-            color: #8a8d91;
+            color: #b0b3b8;
             font-size: 13px;
         }
 
@@ -136,7 +139,8 @@
         textarea {
             width: 100%;
             border: none;
-            background-color: #f0f2f5;
+            background-color: var(--input-bg);
+            color: var(--text-color);
             border-radius: 20px;
             padding: 12px 15px;
             resize: none;
@@ -169,10 +173,10 @@
         .post-header { display: flex; align-items: center; margin-bottom: 12px; }
         .avatar { width: 40px; height: 40px; background-color: #ddd; border-radius: 50%; margin-right: 12px; }
         .username { font-weight: bold; color: #1c1e21; }
-        .post-time { font-size: 12px; color: #65676b; }
-        .post-content { margin-bottom: 15px; line-height: 1.5; }
+        .post-time { font-size: 12px; color: #b0b3b8; }
+        .post-content { margin-bottom: 15px; line-height: 1.5; color: #e4e6eb; }
         .post-actions { border-top: 1px solid var(--border-color); padding-top: 10px; display: flex; }
-        .action-btn { background: none; border: none; color: #65676b; font-weight: bold; cursor: pointer; padding: 8px; border-radius: 4px; flex: 1; }
+        .action-btn { background: none; border: none; color: #b0b3b8; font-weight: bold; cursor: pointer; padding: 8px; border-radius: 4px; flex: 1; }
         .liked { color: var(--primary-color); }
     </style>
 </head>
