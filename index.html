@@ -296,11 +296,16 @@
             const name = document.getElementById('regName').value;
             const user = document.getElementById('regUser').value;
             const pass = document.getElementById('regPass').value;
-            if(!name || !user || !pass) return alert("Preencha tudo!");
-            users.push({ name, username: user, password: pass });
+            if(!name || !user || !pass) return alert("Por favor, preencha todos os campos para criar sua conta!");
+            
+            const newUser = { name, username: user, password: pass };
+            users.push(newUser);
             localStorage.setItem('social_users', JSON.stringify(users));
-            alert("Conta criada!");
-            showPage('loginPage');
+            
+            alert("Conta criada com sucesso! Entrando na Minha Rede Social...");
+            
+            // Login automático após cadastro
+            loginUser(newUser);
         }
 
         function handleLogin() {
