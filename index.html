@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minha Rede Social</title>
-    <!-- Script Oficial do Google Identity Services para Gmail/Google Login -->
+    <title>Minha Rede Musical</title>
+    <!-- Script Oficial do Google Identity Services -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         :root {
-            --primary-color: #1877f2;
-            --secondary-color: #42b72a;
-            --bg-color: #18191a; /* Fundo escuro */
-            --white: #242526;    /* Cor dos cartões/cabeçalho */
-            --text-color: #e4e6eb; /* Texto claro */
-            --border-color: #3e4042;
-            --input-bg: #3a3b3c;
+            --primary-color: #1DB954; /* Verde estilo Spotify */
+            --bg-color: #121212;
+            --card-bg: #181818;
+            --text-main: #FFFFFF;
+            --text-sub: #B3B3B3;
+            --border: #282828;
+            --input-bg: #2A2A2A;
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
             margin: 0;
-            color: var(--text-color);
+            color: var(--text-main);
         }
 
         .hidden { display: none !important; }
@@ -34,77 +34,63 @@
             justify-content: center;
             min-height: 100vh;
             padding: 20px;
+            background: linear-gradient(to bottom, #1db95433, #121212);
         }
 
         .auth-card {
-            background: var(--white);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1);
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             width: 100%;
             max-width: 400px;
             text-align: center;
         }
 
-        .auth-card h2 { color: var(--primary-color); margin-bottom: 10px; font-size: 32px; }
-        .auth-card p { color: #b0b3b8; margin-bottom: 25px; }
+        .auth-card h2 { color: var(--primary-color); margin-bottom: 5px; font-size: 32px; }
+        .auth-card p { color: var(--text-sub); margin-bottom: 30px; }
 
         .auth-form input {
             width: 100%;
             padding: 14px;
-            margin-bottom: 12px;
-            border: 1px solid var(--border-color);
+            margin-bottom: 15px;
+            border: 1px solid var(--border);
             background-color: var(--input-bg);
-            color: var(--text-color);
-            border-radius: 6px;
+            color: var(--text-main);
+            border-radius: 4px;
             font-size: 16px;
             box-sizing: border-box;
         }
 
-        .btn-login {
+        .btn-main {
             width: 100%;
             background-color: var(--primary-color);
-            color: white;
+            color: black;
             border: none;
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 18px;
+            padding: 14px;
+            border-radius: 30px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
         }
+        .btn-main:hover { transform: scale(1.02); background-color: #1ed760; }
 
-        .google-btn-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 15px 0;
-        }
+        .google-btn-wrapper { margin: 20px 0; display: flex; justify-content: center; }
 
-        .divider {
-            border-bottom: 1px solid var(--border-color);
-            margin: 20px 0;
-            position: relative;
-        }
-        .divider span {
-            position: absolute;
-            top: -10px;
-            background: var(--white);
-            padding: 0 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #b0b3b8;
-            font-size: 13px;
-        }
+        .divider { border-bottom: 1px solid var(--border); margin: 25px 0; position: relative; }
+        .divider span { position: absolute; top: -10px; background: var(--card-bg); padding: 0 15px; left: 50%; transform: translateX(-50%); color: var(--text-sub); font-size: 12px; }
 
-        /* Estilos do Feed */
+        /* Estilos do Feed Musical */
         header {
-            background-color: var(--white);
-            padding: 10px 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: rgba(0,0,0,0.8);
+            padding: 15px 30px;
             position: sticky;
             top: 0;
             z-index: 100;
+            backdrop-filter: blur(10px);
         }
 
         .header-content {
@@ -115,69 +101,79 @@
             align-items: center;
         }
 
-        .logo { color: var(--primary-color); font-size: 24px; font-weight: bold; text-decoration: none; }
+        .logo { color: var(--primary-color); font-size: 26px; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 10px; }
 
-        .btn-logout {
-            background: none;
-            border: 1px solid var(--border-color);
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+        .btn-logout { background: transparent; border: 1px solid var(--text-sub); color: var(--text-sub); padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        .btn-logout:hover { border-color: white; color: white; }
 
-        main { max-width: 600px; margin: 20px auto; padding: 0 10px; }
+        main { max-width: 600px; margin: 30px auto; padding: 0 15px; }
 
         .create-post {
-            background-color: var(--white);
-            padding: 15px;
+            background-color: var(--card-bg);
+            padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
+
+        .create-post h3 { margin-top: 0; font-size: 18px; margin-bottom: 15px; }
 
         textarea {
             width: 100%;
             border: none;
             background-color: var(--input-bg);
-            color: var(--text-color);
-            border-radius: 20px;
-            padding: 12px 15px;
+            color: var(--text-main);
+            border-radius: 8px;
+            padding: 15px;
             resize: none;
             font-size: 16px;
             outline: none;
             box-sizing: border-box;
+            margin-bottom: 10px;
         }
 
         .post-button {
             background-color: var(--primary-color);
-            color: white;
+            color: black;
             border: none;
-            padding: 8px 25px;
-            border-radius: 6px;
+            padding: 10px 25px;
+            border-radius: 25px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
             float: right;
         }
 
         .feed { display: flex; flex-direction: column; gap: 20px; }
 
         .post {
-            background-color: var(--white);
-            padding: 15px;
+            background-color: var(--card-bg);
+            padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+        .post:hover { background-color: #282828; }
+
+        .post-header { display: flex; align-items: center; margin-bottom: 15px; }
+        .avatar { width: 45px; height: 45px; background: linear-gradient(45deg, #1db954, #191414); border-radius: 50%; margin-right: 15px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .username { font-weight: bold; font-size: 16px; }
+        .post-time { font-size: 12px; color: var(--text-sub); margin-top: 3px; }
+        
+        .music-tag {
+            display: inline-block;
+            background-color: #2e2e2e;
+            color: var(--primary-color);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 13px;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
 
-        .post-header { display: flex; align-items: center; margin-bottom: 12px; }
-        .avatar { width: 40px; height: 40px; background-color: #ddd; border-radius: 50%; margin-right: 12px; }
-        .username { font-weight: bold; color: #1c1e21; }
-        .post-time { font-size: 12px; color: #b0b3b8; }
-        .post-content { margin-bottom: 15px; line-height: 1.5; color: #e4e6eb; }
-        .post-actions { border-top: 1px solid var(--border-color); padding-top: 10px; display: flex; }
-        .action-btn { background: none; border: none; color: #b0b3b8; font-weight: bold; cursor: pointer; padding: 8px; border-radius: 4px; flex: 1; }
-        .liked { color: var(--primary-color); }
+        .post-content { line-height: 1.6; font-size: 16px; margin-bottom: 15px; }
+        
+        .post-actions { border-top: 1px solid var(--border); padding-top: 15px; display: flex; gap: 20px; }
+        .action-btn { background: none; border: none; color: var(--text-sub); font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; }
+        .action-btn:hover { color: white; }
+        .liked { color: var(--primary-color) !important; }
     </style>
 </head>
 <body>
@@ -185,52 +181,43 @@
     <!-- TELA DE LOGIN -->
     <div id="loginPage" class="auth-container">
         <div class="auth-card">
-            <h2>Minha Rede Social</h2>
-            <p>Conecte-se com seus amigos.</p>
+            <h2>🎵 Minha Musical</h2>
+            <p>Sua trilha sonora começa aqui.</p>
             
-            <!-- Configuração do Google One Tap e Botão -->
             <div class="google-btn-wrapper">
                 <div id="g_id_onload"
                      data-client_id="SUA_CHAVE_AQUI.apps.googleusercontent.com"
-                     data-context="signin"
-                     data-ux_mode="popup"
                      data-callback="handleCredentialResponse"
                      data-auto_prompt="true">
                 </div>
-                <div class="g_id_signin"
-                     data-type="standard"
-                     data-shape="rectangular"
-                     data-theme="outline"
-                     data-text="signin_with"
-                     data-size="large"
-                     data-logo_alignment="left">
-                </div>
+                <div class="g_id_signin" data-type="standard" data-theme="filled_black" data-shape="pill"></div>
             </div>
 
-            <div class="divider"><span>ou use e-mail</span></div>
+            <div class="divider"><span>ou entre com e-mail</span></div>
 
             <div class="auth-form">
-                <input type="text" id="loginEmail" placeholder="E-mail ou nome de usuário">
-                <input type="password" id="loginPass" placeholder="Senha">
-                <button class="btn-login" onclick="handleLogin()">Entrar</button>
+                <input type="text" id="loginEmail" placeholder="Usuário musical">
+                <input type="password" id="loginPass" placeholder="Sua senha secreta">
+                <button class="btn-main" onclick="handleLogin()">Entrar na Roda</button>
             </div>
             
             <div class="divider"></div>
-            <button class="btn-login" style="background-color: var(--secondary-color);" onclick="showPage('registerPage')">Criar nova conta</button>
+            <p style="font-size: 14px;">Novo por aqui? <a href="#" onclick="showPage('registerPage')" style="color: var(--primary-color); text-decoration: none; font-weight: bold;">Crie sua conta</a></p>
         </div>
     </div>
 
     <!-- TELA DE CADASTRO -->
     <div id="registerPage" class="auth-container hidden">
         <div class="auth-card">
-            <h2>Cadastre-se</h2>
+            <h2>Participe do Show</h2>
+            <p>Crie seu perfil e compartilhe seu som.</p>
             <div class="auth-form">
-                <input type="text" id="regName" placeholder="Nome completo">
+                <input type="text" id="regName" placeholder="Seu nome artístico">
                 <input type="text" id="regUser" placeholder="Nome de usuário">
-                <input type="password" id="regPass" placeholder="Nova senha">
-                <button class="btn-login" style="background-color: var(--secondary-color);" onclick="handleRegister()">Cadastre-se</button>
+                <input type="password" id="regPass" placeholder="Escolha uma senha forte">
+                <button class="btn-main" onclick="handleRegister()">Começar a Tocar</button>
             </div>
-            <a href="#" onclick="showPage('loginPage')" style="color: var(--primary-color); text-decoration: none; font-weight: bold;">Voltar ao login</a>
+            <a href="#" onclick="showPage('loginPage')" style="color: var(--text-sub); text-decoration: none; font-size: 14px; display: block; margin-top: 20px;">Já sou da banda (Login)</a>
         </div>
     </div>
 
@@ -238,9 +225,9 @@
     <div id="mainPage" class="hidden">
         <header>
             <div class="header-content">
-                <a href="#" class="logo">Minha Rede Social</a>
+                <a href="#" class="logo"><span>🎵</span> Minha Musical</a>
                 <div class="user-info">
-                    <span id="displayUserName" style="margin-right: 15px; font-weight: bold;"></span>
+                    <span id="displayUserName" style="margin-right: 15px; font-weight: bold; color: var(--primary-color);"></span>
                     <button class="btn-logout" onclick="handleLogout()">Sair</button>
                 </div>
             </div>
@@ -248,8 +235,9 @@
 
         <main>
             <div class="create-post">
-                <textarea id="postInput" placeholder="No que você está pensando?" rows="2"></textarea>
-                <button class="post-button" onclick="addPost()">Publicar</button>
+                <h3>O que você está ouvindo agora?</h3>
+                <textarea id="postInput" placeholder="Compartilhe uma música, álbum ou artista..." rows="3"></textarea>
+                <button class="post-button" onclick="addPost()">Postar Som</button>
                 <div style="clear: both;"></div>
             </div>
             <div id="feed" class="feed"></div>
@@ -259,9 +247,10 @@
     <script>
         let currentUser = null;
         let users = JSON.parse(localStorage.getItem('social_users')) || [];
+        
         let posts = [
-            { id: 1, user: "Eduardo Rodrigues", content: "Bem-vindos! Agora otimizado para entrar com Gmail.", time: "10 min atrás", likes: 8, liked: false },
-            { id: 2, user: "Manus AI", content: "O recurso One Tap do Google facilita muito o acesso!", time: "5 min atrás", likes: 15, liked: true }
+            { id: 1, user: "Eduardo Rodrigues", content: "O novo álbum do Kendrick Lamar está incrível! Qual a opinião de vocês?", tag: "Álbum Novo", time: "15 min atrás", likes: 12, liked: false },
+            { id: 2, user: "Manus AI", content: "Acabei de descobrir uma playlist de Jazz fenomenal para trabalhar.", tag: "Playlist", time: "1h atrás", likes: 24, liked: true }
         ];
 
         function showPage(pageId) {
@@ -271,19 +260,10 @@
             document.getElementById(pageId).classList.remove('hidden');
         }
 
-        // --- LÓGICA DO GMAIL / GOOGLE ---
+        // --- LÓGICA DO GOOGLE ---
         function handleCredentialResponse(response) {
-            // Decodifica o token JWT enviado pelo Google
             const responsePayload = parseJwt(response.credential);
-            
-            const googleUser = {
-                name: responsePayload.name,
-                username: responsePayload.email,
-                avatar: responsePayload.picture
-            };
-            
-            console.log("Login com Gmail bem-sucedido!");
-            loginUser(googleUser);
+            loginUser({ name: responsePayload.name, username: responsePayload.email });
         }
 
         function parseJwt (token) {
@@ -295,42 +275,26 @@
             return JSON.parse(jsonPayload);
         };
 
-        // --- AUTENTICAÇÃO PADRÃO ---
+        // --- AUTENTICAÇÃO ---
         function handleRegister() {
             const name = document.getElementById('regName').value;
             const user = document.getElementById('regUser').value;
             const pass = document.getElementById('regPass').value;
-            if(!name || !user || !pass) return alert("Por favor, preencha todos os campos para criar sua conta!");
+            if(!name || !user || !pass) return alert("Preencha todos os campos!");
             
             const newUser = { name, username: user, password: pass };
             users.push(newUser);
             localStorage.setItem('social_users', JSON.stringify(users));
-            
-            alert("Conta criada com sucesso! Entrando na Minha Rede Social...");
-            
-            // Login automático após cadastro
+            alert("Perfil criado! Bem-vindo ao show.");
             loginUser(newUser);
         }
 
         function handleLogin() {
             const userVal = document.getElementById('loginEmail').value.trim();
             const passVal = document.getElementById('loginPass').value;
-
-            if(!userVal || !passVal) {
-                alert("Por favor, preencha o usuário e a senha!");
-                return;
-            }
-
-            // Busca o usuário na lista (armazenada no LocalStorage)
             const user = users.find(u => u.username === userVal && u.password === passVal);
-
-            if(user) {
-                console.log("Login bem-sucedido para:", user.name);
-                // Entra na rede social
-                loginUser(user);
-            } else {
-                alert("Usuário ou senha incorretos. Tente novamente ou crie uma nova conta!");
-            }
+            if(user) loginUser(user);
+            else alert("Usuário ou senha não encontrados!");
         }
 
         function loginUser(user) {
@@ -343,8 +307,6 @@
         function handleLogout() {
             currentUser = null;
             showPage('loginPage');
-            // Recarrega para permitir novo login com Google se necessário
-            location.reload();
         }
 
         // --- FEED ---
@@ -355,9 +317,21 @@
                 const postElement = document.createElement('div');
                 postElement.className = 'post';
                 postElement.innerHTML = `
-                    <div class="post-header"><div class="avatar"></div><div><div class="username">${post.user}</div><div class="post-time">${post.time}</div></div></div>
+                    <div class="post-header">
+                        <div class="avatar">${post.user[0]}</div>
+                        <div>
+                            <div class="username">${post.user}</div>
+                            <div class="post-time">${post.time}</div>
+                        </div>
+                    </div>
+                    ${post.tag ? `<span class="music-tag"># ${post.tag}</span>` : ''}
                     <div class="post-content">${post.content}</div>
-                    <div class="post-actions"><button class="action-btn ${post.liked ? 'liked' : ''}" onclick="toggleLike(${post.id})">Curtir (${post.likes})</button></div>
+                    <div class="post-actions">
+                        <button class="action-btn ${post.liked ? 'liked' : ''}" onclick="toggleLike(${post.id})">
+                            ❤️ ${post.likes} Curtidas
+                        </button>
+                        <button class="action-btn">💬 Comentar</button>
+                    </div>
                 `;
                 feed.appendChild(postElement);
             });
@@ -366,7 +340,15 @@
         function addPost() {
             const input = document.getElementById('postInput');
             if (!input.value.trim()) return;
-            posts.unshift({ id: Date.now(), user: currentUser.name, content: input.value, time: "Agora mesmo", likes: 0, liked: false });
+            posts.unshift({ 
+                id: Date.now(), 
+                user: currentUser.name, 
+                content: input.value, 
+                tag: "Minha Escolha",
+                time: "Agora mesmo", 
+                likes: 0, 
+                liked: false 
+            });
             input.value = '';
             renderPosts();
         }
