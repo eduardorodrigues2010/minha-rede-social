@@ -309,11 +309,24 @@
         }
 
         function handleLogin() {
-            const userVal = document.getElementById('loginEmail').value;
+            const userVal = document.getElementById('loginEmail').value.trim();
             const passVal = document.getElementById('loginPass').value;
+
+            if(!userVal || !passVal) {
+                alert("Por favor, preencha o usuário e a senha!");
+                return;
+            }
+
+            // Busca o usuário na lista (armazenada no LocalStorage)
             const user = users.find(u => u.username === userVal && u.password === passVal);
-            if(user) loginUser(user);
-            else alert("Dados incorretos!");
+
+            if(user) {
+                console.log("Login bem-sucedido para:", user.name);
+                // Entra na rede social
+                loginUser(user);
+            } else {
+                alert("Usuário ou senha incorretos. Tente novamente ou crie uma nova conta!");
+            }
         }
 
         function loginUser(user) {
