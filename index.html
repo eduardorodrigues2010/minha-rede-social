@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minha Rede Social</title>
     <style>
-        /* CSS Integrado */
         :root {
             --primary-color: #1877f2;
+            --secondary-color: #42b72a;
+            --google-red: #db4437;
             --bg-color: #f0f2f5;
             --white: #ffffff;
             --text-color: #1c1e21;
@@ -21,6 +22,102 @@
             color: var(--text-color);
         }
 
+        .hidden { display: none !important; }
+        .clearfix::after { content: ""; clear: both; display: table; }
+
+        /* Estilos de Autenticação */
+        .auth-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .auth-card h2 { color: var(--primary-color); margin-bottom: 20px; font-size: 28px; }
+
+        .auth-form input {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .btn-login {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .btn-google {
+            width: 100%;
+            background-color: white;
+            color: #757575;
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn-google:hover { background-color: #f8f9fa; }
+
+        .btn-register-link {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .divider {
+            border-bottom: 1px solid var(--border-color);
+            margin: 20px 0;
+            position: relative;
+        }
+        .divider span {
+            position: absolute;
+            top: -10px;
+            background: white;
+            padding: 0 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #8a8d91;
+            font-size: 13px;
+        }
+
+        /* Estilos do Feed */
         header {
             background-color: var(--white);
             padding: 10px 20px;
@@ -38,18 +135,18 @@
             align-items: center;
         }
 
-        .logo {
-            color: var(--primary-color);
-            font-size: 24px;
+        .logo { color: var(--primary-color); font-size: 24px; font-weight: bold; text-decoration: none; }
+
+        .btn-logout {
+            background: none;
+            border: 1px solid var(--border-color);
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
             font-weight: bold;
-            text-decoration: none;
         }
 
-        main {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 0 10px;
-        }
+        main { max-width: 600px; margin: 20px auto; padding: 0 10px; }
 
         .create-post {
             background-color: var(--white);
@@ -64,7 +161,7 @@
             border: none;
             background-color: #f0f2f5;
             border-radius: 20px;
-            padding: 12px;
+            padding: 12px 15px;
             resize: none;
             font-size: 16px;
             outline: none;
@@ -75,7 +172,7 @@
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 8px 20px;
+            padding: 8px 25px;
             border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
@@ -83,21 +180,7 @@
             float: right;
         }
 
-        .post-button:hover {
-            background-color: #166fe5;
-        }
-
-        .clearfix::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-
-        .feed {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+        .feed { display: flex; flex-direction: column; gap: 20px; }
 
         .post {
             background-color: var(--white);
@@ -106,109 +189,157 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
-        .post-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .avatar {
-            width: 40px;
-            height: 40px;
-            background-color: #ccc;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-
-        .username {
-            font-weight: bold;
-        }
-
-        .post-time {
-            font-size: 12px;
-            color: #65676b;
-        }
-
-        .post-content {
-            margin-bottom: 15px;
-            line-height: 1.4;
-        }
-
-        .post-actions {
-            border-top: 1px solid var(--border-color);
-            padding-top: 10px;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .action-btn {
-            background: none;
-            border: none;
-            color: #65676b;
-            font-weight: bold;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 4px;
-            flex: 1;
-        }
-
-        .action-btn:hover {
-            background-color: #f2f2f2;
-        }
-
-        .liked {
-            color: var(--primary-color);
-        }
+        .post-header { display: flex; align-items: center; margin-bottom: 12px; }
+        .avatar { width: 40px; height: 40px; background-color: #ddd; border-radius: 50%; margin-right: 12px; }
+        .username { font-weight: bold; color: #1c1e21; }
+        .post-time { font-size: 12px; color: #65676b; margin-top: 2px; }
+        .post-content { margin-bottom: 15px; line-height: 1.5; font-size: 15px; }
+        .post-actions { border-top: 1px solid var(--border-color); padding-top: 10px; display: flex; }
+        .action-btn { background: none; border: none; color: #65676b; font-weight: bold; cursor: pointer; padding: 8px; border-radius: 4px; flex: 1; transition: 0.2s; }
+        .action-btn:hover { background-color: #f2f2f2; }
+        .liked { color: var(--primary-color); }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="header-content">
-            <a href="#" class="logo">Minha Rede Social</a>
-            <div class="user-info">
-                <strong>Você</strong>
+    <!-- TELA DE LOGIN -->
+    <div id="loginPage" class="auth-container">
+        <div class="auth-card">
+            <h2>Minha Rede Social</h2>
+            <div class="auth-form">
+                <input type="text" id="loginEmail" placeholder="E-mail ou nome de usuário">
+                <input type="password" id="loginPass" placeholder="Senha">
+                <button class="btn-login" onclick="handleLogin()">Entrar</button>
             </div>
-        </div>
-    </header>
+            
+            <div class="divider"><span>ou</span></div>
+            
+            <button class="btn-google" onclick="handleGoogleLogin()">
+                <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="20" alt="Google">
+                Entrar com o Google
+            </button>
 
-    <main>
-        <div class="create-post clearfix">
-            <textarea id="postInput" placeholder="No que você está pensando?" rows="2"></textarea>
-            <button class="post-button" onclick="addPost()">Publicar</button>
+            <a href="#" style="color: var(--primary-color); text-decoration: none; font-size: 14px;">Esqueceu a senha?</a>
+            <div class="divider"></div>
+            <button class="btn-register-link" onclick="showPage('registerPage')">Criar nova conta</button>
         </div>
+    </div>
 
-        <div id="feed" class="feed">
-            <!-- Posts aparecerão aqui -->
+    <!-- TELA DE CADASTRO -->
+    <div id="registerPage" class="auth-container hidden">
+        <div class="auth-card">
+            <h2>Cadastre-se</h2>
+            <p style="color: #606770; margin-bottom: 20px;">É rápido e fácil.</p>
+            <div class="auth-form">
+                <input type="text" id="regName" placeholder="Nome completo">
+                <input type="text" id="regUser" placeholder="Nome de usuário">
+                <input type="password" id="regPass" placeholder="Nova senha">
+                <button class="btn-login" style="background-color: var(--secondary-color);" onclick="handleRegister()">Cadastre-se</button>
+            </div>
+            <a href="#" onclick="showPage('loginPage')" style="color: var(--primary-color); text-decoration: none; font-weight: bold;">Já tem uma conta?</a>
         </div>
-    </main>
+    </div>
+
+    <!-- TELA DO FEED -->
+    <div id="mainPage" class="hidden">
+        <header>
+            <div class="header-content">
+                <a href="#" class="logo">Minha Rede Social</a>
+                <div class="user-info">
+                    <span id="displayUserName" style="margin-right: 15px; font-weight: bold;"></span>
+                    <button class="btn-logout" onclick="handleLogout()">Sair</button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="create-post clearfix">
+                <textarea id="postInput" placeholder="No que você está pensando?" rows="2"></textarea>
+                <button class="post-button" onclick="addPost()">Publicar</button>
+            </div>
+            <div id="feed" class="feed"></div>
+        </main>
+    </div>
 
     <script>
-        // JavaScript Integrado
-        const feed = document.getElementById('feed');
-        const postInput = document.getElementById('postInput');
-
-        // Dados iniciais (simulando um banco de dados)
+        // --- DADOS E ESTADO ---
+        let currentUser = null;
+        // Carrega usuários do LocalStorage ou inicia lista vazia
+        let users = JSON.parse(localStorage.getItem('social_users')) || [];
+        
         let posts = [
-            {
-                id: 1,
-                user: "Eduardo Rodrigues",
-                content: "Olá pessoal! Acabei de criar esta rede social.",
-                time: "Agora mesmo",
-                likes: 0,
-                liked: false
-            },
-            {
-                id: 2,
-                user: "Manus AI",
-                content: "Isso ficou incrível! O poder do HTML, CSS e JS em um único arquivo.",
-                time: "5 min atrás",
-                likes: 12,
-                liked: true
-            }
+            { id: 1, user: "Eduardo Rodrigues", content: "Bem-vindos à Minha Rede Social! Agora com login simulado do Google.", time: "10 min atrás", likes: 5, liked: false },
+            { id: 2, user: "Manus AI", content: "Tudo funcionando em um único arquivo HTML!", time: "5 min atrás", likes: 12, liked: true }
         ];
 
+        // --- NAVEGAÇÃO ---
+        function showPage(pageId) {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('registerPage').classList.add('hidden');
+            document.getElementById('mainPage').classList.add('hidden');
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        // --- LÓGICA DE AUTENTICAÇÃO ---
+        function handleRegister() {
+            const name = document.getElementById('regName').value;
+            const user = document.getElementById('regUser').value;
+            const pass = document.getElementById('regPass').value;
+
+            if(!name || !user || !pass) {
+                alert("Por favor, preencha todos os campos!");
+                return;
+            }
+
+            if(users.find(u => u.username === user)) {
+                alert("Este nome de usuário já está em uso!");
+                return;
+            }
+
+            users.push({ name, username: user, password: pass });
+            localStorage.setItem('social_users', JSON.stringify(users));
+            alert("Conta criada com sucesso! Agora você pode entrar.");
+            showPage('loginPage');
+        }
+
+        function handleLogin() {
+            const userVal = document.getElementById('loginEmail').value;
+            const passVal = document.getElementById('loginPass').value;
+
+            const user = users.find(u => u.username === userVal && u.password === passVal);
+
+            if(user) {
+                loginUser(user);
+            } else {
+                alert("Usuário ou senha incorretos!");
+            }
+        }
+
+        function handleGoogleLogin() {
+            // Simulação de login com Google
+            const googleUser = {
+                name: "Usuário Google",
+                username: "google_user"
+            };
+            alert("Simulando conexão com Google...");
+            loginUser(googleUser);
+        }
+
+        function loginUser(user) {
+            currentUser = user;
+            document.getElementById('displayUserName').innerText = user.name;
+            showPage('mainPage');
+            renderPosts();
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            showPage('loginPage');
+        }
+
+        // --- LÓGICA DO FEED ---
         function renderPosts() {
+            const feed = document.getElementById('feed');
             feed.innerHTML = '';
             posts.forEach(post => {
                 const postElement = document.createElement('div');
@@ -227,7 +358,6 @@
                             ${post.liked ? 'Curtido' : 'Curtir'} (${post.likes})
                         </button>
                         <button class="action-btn">Comentar</button>
-                        <button class="action-btn">Compartilhar</button>
                     </div>
                 `;
                 feed.appendChild(postElement);
@@ -235,27 +365,27 @@
         }
 
         function addPost() {
-            const content = postInput.value.trim();
-            if (content === "") return;
+            const input = document.getElementById('postInput');
+            const content = input.value.trim();
+            if (!content) return;
 
-            const newPost = {
+            posts.unshift({
                 id: Date.now(),
-                user: "Você",
+                user: currentUser.name,
                 content: content,
                 time: "Agora mesmo",
                 likes: 0,
                 liked: false
-            };
+            });
 
-            posts.unshift(newPost);
-            postInput.value = '';
+            input.value = '';
             renderPosts();
         }
 
-        function toggleLike(postId) {
-            const post = posts.find(p => p.id === postId);
-            if (post) {
-                if (post.liked) {
+        function toggleLike(id) {
+            const post = posts.find(p => p.id === id);
+            if(post) {
+                if(post.liked) {
                     post.likes--;
                     post.liked = false;
                 } else {
@@ -265,9 +395,6 @@
                 renderPosts();
             }
         }
-
-        // Inicializar feed
-        renderPosts();
     </script>
 </body>
 </html>
