@@ -190,9 +190,9 @@
 </head>
 <body>
 
-    <!-- LOGIN/CADASTRO (Igual ao anterior) -->
+    <!-- LOGIN/CADASTRO -->
     <div id="loginPage" class="auth-container">
-            <div class="auth-card">
+        <div class="auth-card">
             <h2>MUSICA PLAY</h2>
             <p style="letter-spacing: 2px; font-weight: bold; color: var(--primary-color);">DÊ UM PLAY NA SUA VIDA</p>
             <div class="auth-form">
@@ -236,7 +236,7 @@
         </header>
 
         <main>
-            <!-- Área de Resultados de Pesquisa (Oculta por padrão) -->
+            <!-- Área de Resultados de Pesquisa -->
             <div id="searchResults" class="search-results hidden">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                     <h3 style="margin: 0;">Resultados da busca</h3>
@@ -259,7 +259,6 @@
         let currentUser = null;
         let users = JSON.parse(localStorage.getItem('social_users')) || [];
         
-        // Banco de dados simulado para pesquisa
         const musicData = [
             { name: "The Weeknd", type: "Artista", info: "100M ouvintes mensais", icon: "🎤" },
             { name: "Taylor Swift", type: "Artista", info: "95M ouvintes mensais", icon: "🎸" },
@@ -270,8 +269,8 @@
         ];
 
         let posts = [
-            { id: 1, user: "Eduardo Rodrigues", content: "Ouvindo o novo álbum da Billie Eilish. Incrível!", time: "10 min atrás" },
-            { id: 2, user: "Manus AI", content: "A playlist 'Chill Vibes' é perfeita para codar.", time: "1h atrás" }
+            { id: 1, user: "Eduardo Rodrigues", content: "Ouvindo o novo álbum da Billie Eilish. Incrível!", time: "10 min atrás", likes: 5, liked: false },
+            { id: 2, user: "Manus AI", content: "A playlist 'Chill Vibes' é perfeita para codar.", time: "1h atrás", likes: 10, liked: true }
         ];
 
         function showPage(pageId) {
@@ -279,34 +278,19 @@
             document.getElementById(pageId).classList.remove('hidden');
         }
 
-        // --- PESQUISA ---
         function handleSearch(event) {
             const query = event.target.value.toLowerCase();
             const resultsArea = document.getElementById('searchResults');
             const resultsList = document.getElementById('resultsList');
-
-            if (query.length < 2) {
-                resultsArea.classList.add('hidden');
-                return;
-            }
-
-            const filtered = musicData.filter(item => 
-                item.name.toLowerCase().includes(query) || item.type.toLowerCase().includes(query)
-            );
-
+            if (query.length < 2) { resultsArea.classList.add('hidden'); return; }
+            const filtered = musicData.filter(item => item.name.toLowerCase().includes(query) || item.type.toLowerCase().includes(query));
             resultsList.innerHTML = '';
             if (filtered.length > 0) {
                 filtered.forEach(item => {
                     const div = document.createElement('div');
                     div.className = 'result-item';
                     div.onclick = () => alert('Tocando: ' + item.name);
-                    div.innerHTML = `
-                        <div class="result-img">${item.icon}</div>
-                        <div class="result-info">
-                            <h4>${item.name}</h4>
-                            <p>${item.type} • ${item.info}</p>
-                        </div>
-                    `;
+                    div.innerHTML = `<div class="result-img">${item.icon}</div><div class="result-info"><h4>${item.name}</h4><p>${item.type} • ${item.info}</p></div>`;
                     resultsList.appendChild(div);
                 });
                 resultsArea.classList.remove('hidden');
@@ -316,12 +300,8 @@
             }
         }
 
-        function closeSearch() {
-            document.getElementById('searchResults').classList.add('hidden');
-            document.getElementById('searchInput').value = '';
-        }
+        function closeSearch() { document.getElementById('searchResults').classList.add('hidden'); document.getElementById('searchInput').value = ''; }
 
-        // --- AUTH ---
         function handleRegister() {
             const name = document.getElementById('regName').value;
             const user = document.getElementById('regUser').value;
@@ -341,18 +321,9 @@
             else alert("Erro!");
         }
 
-        function loginUser(user) {
-            currentUser = user;
-            showPage('mainPage');
-            renderPosts();
-        }
+        function loginUser(user) { currentUser = user; showPage('mainPage'); renderPosts(); }
+        function handleLogout() { currentUser = null; showPage('loginPage'); }
 
-        function handleLogout() {
-            currentUser = null;
-            showPage('loginPage');
-        }
-
-        // --- FEED ---
         function renderPosts() {
             const feed = document.getElementById('feed');
             feed.innerHTML = '';
@@ -362,7 +333,7 @@
                 div.innerHTML = `
                     <div class="post-header"><div class="avatar">${post.user[0]}</div><div><div class="username">${post.user}</div><div class="post-time">${post.time}</div></div></div>
                     <div class="post-content">${post.content}</div>
-                    <div class="post-actions"><span>❤️ Curtir</span><span>💬 Comentar</span></div>
+                    <div class="post-actions"><span style="cursor:pointer" onclick="toggleLike(${post.id})">${post.liked ? '❤️' : '🤍'} ${post.likes} Curtidas</span></div>
                 `;
                 feed.appendChild(div);
             });
@@ -371,9 +342,14 @@
         function addPost() {
             const input = document.getElementById('postInput');
             if (!input.value.trim()) return;
-            posts.unshift({ id: Date.now(), user: currentUser.name, content: input.value, time: "Agora mesmo" });
+            posts.unshift({ id: Date.now(), user: currentUser.name, content: input.value, time: "Agora mesmo", likes: 0, liked: false });
             input.value = '';
             renderPosts();
+        }
+
+        function toggleLike(id) {
+            const post = posts.find(p => p.id === id);
+            if(post) { post.liked ? post.likes-- : post.likes++; post.liked = !post.liked; renderPosts(); }
         }
     </script>
 </body>
