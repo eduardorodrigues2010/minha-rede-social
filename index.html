@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minha Rede Musical</title>
+    <title>Musica Play</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         :root {
@@ -46,7 +46,16 @@
             text-align: center;
         }
 
-        .auth-card h2 { color: var(--primary-color); margin-bottom: 5px; font-size: 32px; }
+        .auth-card h2 { 
+            color: var(--primary-color); 
+            margin-bottom: 10px; 
+            font-size: 48px; 
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            text-shadow: 0 0 10px rgba(29, 185, 84, 0.5);
+            font-family: 'Arial Black', sans-serif;
+        }
         .auth-card p { color: var(--text-sub); margin-bottom: 30px; }
 
         .auth-form input {
@@ -99,7 +108,14 @@
             gap: 20px;
         }
 
-        .logo { color: var(--primary-color); font-size: 22px; font-weight: bold; text-decoration: none; min-width: 180px; }
+        .logo { 
+            color: var(--primary-color); 
+            font-size: 24px; 
+            font-weight: 900; 
+            text-decoration: none; 
+            min-width: 180px;
+            font-family: 'Arial Black', sans-serif;
+        }
 
         /* Barra de Pesquisa */
         .search-bar {
@@ -176,9 +192,9 @@
 
     <!-- LOGIN/CADASTRO (Igual ao anterior) -->
     <div id="loginPage" class="auth-container">
-        <div class="auth-card">
-            <h2>🎵 Minha Musical</h2>
-            <p>Descubra sua próxima música favorita.</p>
+            <div class="auth-card">
+            <h2>MUSICA PLAY</h2>
+            <p style="letter-spacing: 2px; font-weight: bold; color: var(--primary-color);">DÊ UM PLAY NA SUA VIDA</p>
             <div class="auth-form">
                 <input type="text" id="loginEmail" placeholder="Usuário">
                 <input type="password" id="loginPass" placeholder="Senha">
@@ -206,7 +222,7 @@
     <div id="mainPage" class="hidden">
         <header>
             <div class="header-content">
-                <a href="#" class="logo">🎵 Minha Musical</a>
+                <a href="#" class="logo">MUSICA PLAY</a>
                 
                 <div class="search-bar">
                     <span class="search-icon">🔍</span>
