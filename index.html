@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minha Rede Social</title>
-    <!-- Script Oficial do Google Identity Services -->
+    <!-- Script Oficial do Google Identity Services para Gmail/Google Login -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         :root {
@@ -24,7 +24,6 @@
         }
 
         .hidden { display: none !important; }
-        .clearfix::after { content: ""; clear: both; display: table; }
 
         /* Estilos de Autenticação */
         .auth-container {
@@ -38,7 +37,7 @@
 
         .auth-card {
             background: var(--white);
-            padding: 25px;
+            padding: 30px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1);
             width: 100%;
@@ -46,7 +45,8 @@
             text-align: center;
         }
 
-        .auth-card h2 { color: var(--primary-color); margin-bottom: 20px; font-size: 28px; }
+        .auth-card h2 { color: var(--primary-color); margin-bottom: 10px; font-size: 32px; }
+        .auth-card p { color: #606770; margin-bottom: 25px; }
 
         .auth-form input {
             width: 100%;
@@ -73,20 +73,9 @@
 
         .google-btn-wrapper {
             display: flex;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-
-        .btn-register-link {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 6px;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
+            flex-direction: column;
+            align-items: center;
+            margin: 15px 0;
         }
 
         .divider {
@@ -128,7 +117,7 @@
         .btn-logout {
             background: none;
             border: 1px solid var(--border-color);
-            padding: 5px 12px;
+            padding: 6px 12px;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
@@ -180,11 +169,10 @@
         .post-header { display: flex; align-items: center; margin-bottom: 12px; }
         .avatar { width: 40px; height: 40px; background-color: #ddd; border-radius: 50%; margin-right: 12px; }
         .username { font-weight: bold; color: #1c1e21; }
-        .post-time { font-size: 12px; color: #65676b; margin-top: 2px; }
-        .post-content { margin-bottom: 15px; line-height: 1.5; font-size: 15px; }
+        .post-time { font-size: 12px; color: #65676b; }
+        .post-content { margin-bottom: 15px; line-height: 1.5; }
         .post-actions { border-top: 1px solid var(--border-color); padding-top: 10px; display: flex; }
-        .action-btn { background: none; border: none; color: #65676b; font-weight: bold; cursor: pointer; padding: 8px; border-radius: 4px; flex: 1; transition: 0.2s; }
-        .action-btn:hover { background-color: #f2f2f2; }
+        .action-btn { background: none; border: none; color: #65676b; font-weight: bold; cursor: pointer; padding: 8px; border-radius: 4px; flex: 1; }
         .liked { color: var(--primary-color); }
     </style>
 </head>
@@ -194,25 +182,37 @@
     <div id="loginPage" class="auth-container">
         <div class="auth-card">
             <h2>Minha Rede Social</h2>
+            <p>Conecte-se com seus amigos.</p>
+            
+            <!-- Configuração do Google One Tap e Botão -->
+            <div class="google-btn-wrapper">
+                <div id="g_id_onload"
+                     data-client_id="SUA_CHAVE_AQUI.apps.googleusercontent.com"
+                     data-context="signin"
+                     data-ux_mode="popup"
+                     data-callback="handleCredentialResponse"
+                     data-auto_prompt="true">
+                </div>
+                <div class="g_id_signin"
+                     data-type="standard"
+                     data-shape="rectangular"
+                     data-theme="outline"
+                     data-text="signin_with"
+                     data-size="large"
+                     data-logo_alignment="left">
+                </div>
+            </div>
+
+            <div class="divider"><span>ou use e-mail</span></div>
+
             <div class="auth-form">
                 <input type="text" id="loginEmail" placeholder="E-mail ou nome de usuário">
                 <input type="password" id="loginPass" placeholder="Senha">
                 <button class="btn-login" onclick="handleLogin()">Entrar</button>
             </div>
             
-            <div class="divider"><span>ou</span></div>
-            
-            <!-- Botão Real do Google -->
-            <div class="google-btn-wrapper">
-                <div id="g_id_onload"
-                     data-client_id="SUA_CHAVE_AQUI.apps.googleusercontent.com"
-                     data-callback="handleCredentialResponse">
-                </div>
-                <div class="g_id_signin" data-type="standard"></div>
-            </div>
-
             <div class="divider"></div>
-            <button class="btn-register-link" onclick="showPage('registerPage')">Criar nova conta</button>
+            <button class="btn-login" style="background-color: var(--secondary-color);" onclick="showPage('registerPage')">Criar nova conta</button>
         </div>
     </div>
 
@@ -243,9 +243,10 @@
         </header>
 
         <main>
-            <div class="create-post clearfix">
+            <div class="create-post">
                 <textarea id="postInput" placeholder="No que você está pensando?" rows="2"></textarea>
                 <button class="post-button" onclick="addPost()">Publicar</button>
+                <div style="clear: both;"></div>
             </div>
             <div id="feed" class="feed"></div>
         </main>
@@ -255,8 +256,8 @@
         let currentUser = null;
         let users = JSON.parse(localStorage.getItem('social_users')) || [];
         let posts = [
-            { id: 1, user: "Eduardo Rodrigues", content: "Bem-vindos! Agora com integração real do Google.", time: "10 min atrás", likes: 5, liked: false },
-            { id: 2, user: "Manus AI", content: "Configure seu Client ID para ativar o login!", time: "5 min atrás", likes: 12, liked: true }
+            { id: 1, user: "Eduardo Rodrigues", content: "Bem-vindos! Agora otimizado para entrar com Gmail.", time: "10 min atrás", likes: 8, liked: false },
+            { id: 2, user: "Manus AI", content: "O recurso One Tap do Google facilita muito o acesso!", time: "5 min atrás", likes: 15, liked: true }
         ];
 
         function showPage(pageId) {
@@ -266,17 +267,18 @@
             document.getElementById(pageId).classList.remove('hidden');
         }
 
-        // --- LÓGICA DO GOOGLE ---
+        // --- LÓGICA DO GMAIL / GOOGLE ---
         function handleCredentialResponse(response) {
-            // Aqui o Google retorna um token JWT
-            // Decodificando o token (apenas para exibição frontal)
+            // Decodifica o token JWT enviado pelo Google
             const responsePayload = parseJwt(response.credential);
             
             const googleUser = {
                 name: responsePayload.name,
-                username: responsePayload.email
+                username: responsePayload.email,
+                avatar: responsePayload.picture
             };
             
+            console.log("Login com Gmail bem-sucedido!");
             loginUser(googleUser);
         }
 
@@ -289,7 +291,7 @@
             return JSON.parse(jsonPayload);
         };
 
-        // --- LÓGICA DE AUTENTICAÇÃO PADRÃO ---
+        // --- AUTENTICAÇÃO PADRÃO ---
         function handleRegister() {
             const name = document.getElementById('regName').value;
             const user = document.getElementById('regUser').value;
@@ -297,7 +299,7 @@
             if(!name || !user || !pass) return alert("Preencha tudo!");
             users.push({ name, username: user, password: pass });
             localStorage.setItem('social_users', JSON.stringify(users));
-            alert("Sucesso!");
+            alert("Conta criada!");
             showPage('loginPage');
         }
 
@@ -306,7 +308,7 @@
             const passVal = document.getElementById('loginPass').value;
             const user = users.find(u => u.username === userVal && u.password === passVal);
             if(user) loginUser(user);
-            else alert("Erro!");
+            else alert("Dados incorretos!");
         }
 
         function loginUser(user) {
@@ -319,6 +321,8 @@
         function handleLogout() {
             currentUser = null;
             showPage('loginPage');
+            // Recarrega para permitir novo login com Google se necessário
+            location.reload();
         }
 
         // --- FEED ---
