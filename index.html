@@ -3,30 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Musica Play | Mega Update</title>
+    <title>Musica Play | Minimal</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         :root {
             --primary: #1DB954;
-            --primary-hover: #1ed760;
             --bg: #000000;
             --surface: #121212;
-            --surface-elevated: #181818;
-            --surface-highlight: #282828;
             --text-base: #FFFFFF;
             --text-sub: #B3B3B3;
             --border: #333333;
         }
 
-        * { box-sizing: border-box; transition: background-color 0.3s, transform 0.2s; }
+        * { box-sizing: border-box; transition: 0.3s; }
 
         body {
             font-family: 'Circular', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg);
             margin: 0;
             color: var(--text-base);
-            overflow-x: hidden;
-            padding-bottom: 110px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .hidden { display: none !important; }
@@ -36,386 +34,239 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            background: radial-gradient(circle at top left, #1db95422, transparent), 
-                        radial-gradient(circle at bottom right, #1db95411, transparent);
+            height: 100vh;
+            background: radial-gradient(circle at center, #1db95422, transparent);
         }
 
         .auth-card {
             background-color: var(--surface);
-            padding: 48px;
+            padding: 40px;
             border-radius: 16px;
             width: 100%;
-            max-width: 450px;
+            max-width: 400px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
 
-        .auth-card h1 {
-            font-size: 42px;
-            font-weight: 900;
-            color: var(--primary);
-            margin: 0 0 10px 0;
-            letter-spacing: -2px;
-            font-family: 'Arial Black', sans-serif;
-        }
+        .auth-card h1 { font-size: 36px; font-weight: 900; color: var(--primary); margin: 0 0 10px 0; letter-spacing: -1px; }
+        .auth-card p { color: var(--text-sub); font-size: 14px; margin-bottom: 30px; }
 
-        .auth-card p.slogan {
-            color: var(--text-sub);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 40px;
-        }
-
-        .input-group { margin-bottom: 20px; text-align: left; }
-        .input-group label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: bold; }
+        .input-group { margin-bottom: 15px; text-align: left; }
         .input-group input {
             width: 100%;
-            padding: 14px;
-            background: var(--surface-highlight);
+            padding: 12px;
+            background: #282828;
             border: 1px solid transparent;
-            border-radius: 4px;
+            border-radius: 8px;
             color: white;
             font-size: 16px;
         }
-        .input-group input:focus { border-color: var(--text-sub); outline: none; }
+        .input-group input:focus { border-color: var(--primary); outline: none; }
 
         .btn-primary {
             width: 100%;
             background-color: var(--primary);
             color: black;
             border: none;
-            padding: 16px;
+            padding: 14px;
             border-radius: 30px;
             font-size: 16px;
-            font-weight: 900;
+            font-weight: bold;
             cursor: pointer;
-            text-transform: uppercase;
             margin-top: 10px;
         }
-        .btn-primary:hover { background-color: var(--primary-hover); transform: scale(1.02); }
 
-        /* --- APP LAYOUT --- */
+        /* --- MINIMAL MAIN APP --- */
         header {
-            background-color: rgba(0,0,0,0.8);
-            backdrop-filter: blur(15px);
-            padding: 15px 40px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .nav-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 250px 1fr 250px;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-        }
-
-        .logo-main { font-size: 24px; font-weight: 900; color: var(--primary); text-decoration: none; font-family: 'Arial Black', sans-serif; }
-
-        .search-container { position: relative; width: 100%; max-width: 500px; margin: 0 auto; }
-        .search-container input {
+            position: absolute;
+            top: 0;
             width: 100%;
-            background: var(--surface-highlight);
-            border: none;
-            border-radius: 25px;
-            padding: 12px 20px 12px 45px;
-            color: white;
-            font-size: 14px;
-        }
-        .search-icon { position: absolute; left: 15px; top: 12px; color: var(--text-sub); }
-
-        .user-nav { display: flex; align-items: center; justify-content: flex-end; gap: 20px; }
-        .btn-logout { background: none; border: 1px solid var(--text-sub); color: var(--text-sub); padding: 8px 18px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: bold; }
-
-        .app-grid {
-            max-width: 1400px;
-            margin: 30px auto;
-            display: grid;
-            grid-template-columns: 300px 1fr 300px;
-            gap: 30px;
-            padding: 0 40px;
         }
 
-        /* --- SIDEBARS --- */
-        .sidebar-card { background: var(--surface); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
-        .sidebar-card h3 { margin: 0 0 20px 0; font-size: 18px; color: var(--primary); }
+        .logo-small { font-size: 20px; font-weight: 900; color: var(--primary); text-decoration: none; }
 
-        .trending-item {
+        .user-profile-nav {
             display: flex;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border);
-            cursor: pointer;
+            gap: 15px;
+            background: var(--surface);
+            padding: 5px 15px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
         }
-        .trending-rank { font-size: 20px; font-weight: 900; color: var(--surface-highlight); margin-right: 15px; width: 30px; }
-        .trending-info h4 { margin: 0; font-size: 14px; }
-        .trending-info p { margin: 2px 0 0 0; font-size: 12px; color: var(--text-sub); }
+        .avatar-small { width: 30px; height: 30px; background: var(--primary); border-radius: 50%; color: black; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; }
+        .logout-link { color: var(--text-sub); font-size: 12px; cursor: pointer; text-decoration: none; }
+        .logout-link:hover { color: white; }
 
-        /* --- FEED --- */
-        .create-post { background: var(--surface); border-radius: 12px; padding: 25px; margin-bottom: 30px; }
-        .create-post textarea {
-            width: 100%;
-            background: var(--surface-highlight);
-            border: none;
-            border-radius: 8px;
-            padding: 15px;
-            color: white;
-            font-size: 16px;
-            resize: none;
-            margin-bottom: 15px;
-        }
-        .post-footer { display: flex; justify-content: space-between; align-items: center; }
-        .music-tag { color: var(--primary); font-size: 13px; font-weight: bold; cursor: pointer; }
-
-        .post-card { background: var(--surface); border-radius: 12px; padding: 25px; margin-bottom: 25px; }
-        .post-header { display: flex; align-items: center; margin-bottom: 15px; }
-        .user-avatar { width: 45px; height: 45px; background: var(--primary); border-radius: 50%; margin-right: 15px; display: flex; align-items: center; justify-content: center; color: black; font-weight: 900; }
-        .user-meta h4 { margin: 0; font-size: 16px; }
-        .user-meta span { font-size: 12px; color: var(--text-sub); }
-        .post-content { font-size: 16px; line-height: 1.6; margin-bottom: 20px; }
-        .post-music-attach { background: var(--surface-highlight); padding: 12px; border-radius: 8px; display: flex; align-items: center; gap: 15px; margin-bottom: 20px; border-left: 4px solid var(--primary); }
-        .post-actions { border-top: 1px solid var(--border); padding-top: 15px; display: flex; gap: 25px; }
-        .action-btn { background: none; border: none; color: var(--text-sub); cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; }
-        .action-btn.liked { color: var(--primary); }
-
-        /* --- PLAYER --- */
-        .now-playing-bar {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: #181818;
-            border-top: 1px solid var(--border);
-            padding: 16px 32px;
-            display: grid;
-            grid-template-columns: 1fr 2fr 1fr;
+        .main-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            z-index: 1000;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
         }
 
-        .track-info { display: flex; align-items: center; }
-        .track-img { width: 56px; height: 56px; border-radius: 4px; background: #282828; margin-right: 15px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
-        .track-details h4 { margin: 0; font-size: 14px; }
-        .track-details p { margin: 3px 0 0 0; font-size: 11px; color: var(--text-sub); }
+        .welcome-text { font-size: 48px; font-weight: 900; margin-bottom: 40px; letter-spacing: -2px; }
 
-        .player-center { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .player-btns { display: flex; align-items: center; gap: 24px; font-size: 20px; }
-        .btn-play-pause { background: white; color: black; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; }
-        
-        .playback-bar { width: 100%; max-width: 500px; display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--text-sub); }
-        .progress-container { flex-grow: 1; height: 4px; background: #4f4f4f; border-radius: 2px; cursor: pointer; }
-        .progress-val { width: 30%; height: 100%; background: var(--primary); border-radius: 2px; }
+        .search-box {
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
 
-        /* --- SEARCH OVERLAY --- */
+        .search-box input {
+            width: 100%;
+            background: white;
+            border: none;
+            border-radius: 50px;
+            padding: 20px 30px 20px 60px;
+            color: black;
+            font-size: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .search-box .icon { position: absolute; left: 25px; top: 22px; color: #666; font-size: 20px; }
+
         .search-results-overlay {
             position: absolute;
-            top: 55px;
+            top: 75px;
             width: 100%;
-            background: var(--surface-elevated);
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            background: var(--surface);
+            border-radius: 12px;
             border: 1px solid var(--border);
-            max-height: 400px;
+            max-height: 300px;
             overflow-y: auto;
-            z-index: 1001;
+            text-align: left;
+            z-index: 100;
         }
-        .search-item { padding: 12px 20px; display: flex; align-items: center; gap: 15px; cursor: pointer; }
-        .search-item:hover { background: var(--surface-highlight); }
-        .search-item-img { width: 40px; height: 40px; border-radius: 4px; background: #333; display: flex; align-items: center; justify-content: center; }
+
+        .result-item { padding: 15px 25px; display: flex; align-items: center; gap: 15px; cursor: pointer; border-bottom: 1px solid var(--border); }
+        .result-item:hover { background: #282828; }
+        .result-icon { font-size: 24px; }
+
+        /* --- PLAYER FIXO --- */
+        .mini-player {
+            position: fixed;
+            bottom: 30px;
+            background: var(--surface);
+            padding: 15px 30px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            max-width: 90%;
+        }
+
+        .player-info { display: flex; align-items: center; gap: 12px; }
+        .player-title { font-size: 14px; font-weight: bold; }
+        .player-artist { font-size: 12px; color: var(--text-sub); }
+        .btn-play { background: white; color: black; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; }
+
     </style>
 </head>
 <body>
 
-    <!-- PÁGINA DE LOGIN -->
+    <!-- LOGIN -->
     <div id="loginPage" class="auth-wrapper">
         <div class="auth-card">
             <h1>MUSICA PLAY</h1>
-            <p class="slogan">Dê um play na sua vida</p>
-            <div class="auth-form">
-                <div class="input-group">
-                    <label>Usuário</label>
-                    <input type="text" id="loginUser" placeholder="Seu nome de usuário" onkeypress="if(event.key === 'Enter') handleLogin()">
-                </div>
-                <div class="input-group">
-                    <label>Senha</label>
-                    <input type="password" id="loginPass" placeholder="Sua senha secreta" onkeypress="if(event.key === 'Enter') handleLogin()">
-                </div>
-                <button class="btn-primary" onclick="handleLogin()">Entrar Agora</button>
+            <p>Entre para descobrir novas batidas</p>
+            <div class="input-group">
+                <input type="text" id="loginUser" placeholder="Usuário" onkeypress="if(event.key === 'Enter') handleLogin()">
             </div>
-            <div style="margin: 30px 0; border-bottom: 1px solid var(--border); position: relative;">
-                <span style="position: absolute; top: -10px; background: var(--surface); padding: 0 15px; left: 50%; transform: translateX(-50%); color: var(--text-sub); font-size: 12px;">OU</span>
+            <div class="input-group">
+                <input type="password" id="loginPass" placeholder="Senha" onkeypress="if(event.key === 'Enter') handleLogin()">
             </div>
-            <button class="btn-primary" style="background: transparent; border: 1px solid var(--text-sub); color: white;" onclick="showPage('registerPage')">Criar Nova Conta</button>
+            <button class="btn-primary" onclick="handleLogin()">Entrar</button>
+            <p style="margin-top: 20px;">Não tem conta? <a href="#" onclick="showPage('registerPage')" style="color: var(--primary);">Cadastre-se</a></p>
         </div>
     </div>
 
-    <!-- PÁGINA DE CADASTRO -->
+    <!-- CADASTRO -->
     <div id="registerPage" class="auth-wrapper hidden">
         <div class="auth-card">
-            <h1>CADASTRO</h1>
-            <p class="slogan">Sua jornada musical começa aqui</p>
-            <div class="auth-form">
-                <div class="input-group">
-                    <label>Nome Completo</label>
-                    <input type="text" id="regFullName" placeholder="Como você quer ser chamado?" onkeypress="if(event.key === 'Enter') handleRegister()">
-                </div>
-                <div class="input-group">
-                    <label>Nome de Usuário</label>
-                    <input type="text" id="regUser" placeholder="Ex: joao_musica" onkeypress="if(event.key === 'Enter') handleRegister()">
-                </div>
-                <div class="input-group">
-                    <label>Senha</label>
-                    <input type="password" id="regPass" placeholder="Crie uma senha forte" onkeypress="if(event.key === 'Enter') handleRegister()">
-                </div>
-                <button class="btn-primary" onclick="handleRegister()">Cadastrar e Entrar</button>
+            <h1>CRIAR CONTA</h1>
+            <p>Sua jornada musical começa agora</p>
+            <div class="input-group">
+                <input type="text" id="regName" placeholder="Nome Completo" onkeypress="if(event.key === 'Enter') handleRegister()">
             </div>
-            <p style="margin-top: 25px; font-size: 14px; color: var(--text-sub);">Já tem conta? <a href="#" onclick="showPage('loginPage')" style="color: white; font-weight: bold;">Faça login</a></p>
+            <div class="input-group">
+                <input type="text" id="regUser" placeholder="Usuário" onkeypress="if(event.key === 'Enter') handleRegister()">
+            </div>
+            <div class="input-group">
+                <input type="password" id="regPass" placeholder="Senha" onkeypress="if(event.key === 'Enter') handleRegister()">
+            </div>
+            <button class="btn-primary" onclick="handleRegister()">Cadastrar</button>
+            <p style="margin-top: 20px;"><a href="#" onclick="showPage('loginPage')" style="color: var(--text-sub);">Voltar ao login</a></p>
         </div>
     </div>
 
-    <!-- APP PRINCIPAL -->
+    <!-- APP PRINCIPAL MINIMALISTA -->
     <div id="mainApp" class="hidden">
         <header>
-            <div class="nav-content">
-                <a href="#" class="logo-main" onclick="location.reload()">MUSICA PLAY</a>
-                <div class="search-container">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="searchInput" placeholder="O que você quer ouvir hoje?" onkeyup="handleSearch(event)">
-                    <div id="searchOverlay" class="search-results-overlay hidden"></div>
-                </div>
-                <div class="user-nav">
-                    <span id="headerUserName" style="font-weight: bold;">Usuário</span>
-                    <button class="btn-logout" onclick="handleLogout()">Sair</button>
-                </div>
+            <a href="#" class="logo-small">MUSICA PLAY</a>
+            <div class="user-profile-nav">
+                <div id="userAvatar" class="avatar-small">U</div>
+                <span id="userName" style="font-weight: bold; font-size: 14px;">Usuário</span>
+                <span class="logout-link" onclick="location.reload()">Sair</span>
             </div>
         </header>
 
-        <div class="app-grid">
-            <!-- BARRA LATERAL ESQUERDA: PERFIL -->
-            <aside>
-                <div class="sidebar-card">
-                    <h3>Seu Perfil</h3>
-                    <div style="text-align: center; padding: 10px 0;">
-                        <div id="profileAvatar" class="user-avatar" style="width: 80px; height: 80px; font-size: 32px; margin: 0 auto 15px auto;">U</div>
-                        <h4 id="profileName" style="margin: 0;">Nome do Usuário</h4>
-                        <p id="profileUser" style="color: var(--text-sub); font-size: 13px; margin: 5px 0 20px 0;">@usuario</p>
-                        <div style="display: flex; justify-content: space-around; border-top: 1px solid var(--border); padding-top: 15px;">
-                            <div><div style="font-weight: 900;">12</div><div style="font-size: 10px; color: var(--text-sub); text-transform: uppercase;">Posts</div></div>
-                            <div><div style="font-weight: 900;">850</div><div style="font-size: 10px; color: var(--text-sub); text-transform: uppercase;">Seguidores</div></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="sidebar-card">
-                    <h3>Sua Biblioteca</h3>
-                    <p style="font-size: 13px; color: var(--text-sub);">Você ainda não tem playlists salvas.</p>
-                </div>
-            </aside>
-
-            <!-- FEED PRINCIPAL -->
-            <main>
-                <div class="create-post">
-                    <textarea id="postContent" placeholder="O que está tocando nos seus fones?" rows="3"></textarea>
-                    <div class="post-footer">
-                        <span class="music-tag" id="taggedMusic">🎵 Marcar música</span>
-                        <button class="btn-primary" style="width: auto; padding: 10px 25px;" onclick="createNewPost()">Postar</button>
-                    </div>
-                </div>
-                <div id="feedContent"></div>
-            </main>
-
-            <!-- BARRA LATERAL DIREITA: TENDÊNCIAS -->
-            <aside>
-                <div class="sidebar-card">
-                    <h3>Bombando no Brasil 🇧🇷</h3>
-                    <div id="trendingList"></div>
-                </div>
-                <div class="sidebar-card" style="font-size: 12px; color: var(--text-sub);">
-                    <p>© 2024 Musica Play Inc.</p>
-                    <p>Feito com ❤️ para os amantes de música.</p>
-                </div>
-            </aside>
+        <div class="main-container">
+            <h2 class="welcome-text">O que vamos ouvir?</h2>
+            <div class="search-box">
+                <span class="icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Pesquisar artistas brasileiros..." onkeyup="handleSearch(event)">
+                <div id="searchOverlay" class="search-results-overlay hidden"></div>
+            </div>
         </div>
 
-        <!-- PLAYER DE MÚSICA PREMIUM -->
-        <div class="now-playing-bar">
-            <div class="track-info">
-                <div class="track-img" id="pImg">🎵</div>
-                <div class="track-details">
-                    <h4 id="pTitle">Nenhuma música</h4>
-                    <p id="pArtist">Selecione para ouvir</p>
+        <!-- PLAYER MINIMALISTA -->
+        <div id="player" class="mini-player hidden">
+            <div class="player-info">
+                <div id="pIcon" style="font-size: 24px;">🎵</div>
+                <div>
+                    <div id="pTitle" class="player-title">Música</div>
+                    <div id="pArtist" class="player-artist">Artista</div>
                 </div>
             </div>
-            <div class="player-center">
-                <div class="player-btns">
-                    <span>⏮️</span>
-                    <div class="btn-play-pause" id="pPlay" onclick="togglePlayback()">▶️</div>
-                    <span>⏭️</span>
-                </div>
-                <div class="playback-bar">
-                    <span>0:00</span>
-                    <div class="progress-container">
-                        <div class="progress-val" id="pProgress"></div>
-                    </div>
-                    <span id="pDuration">3:30</span>
-                </div>
-            </div>
-            <div class="track-info" style="justify-content: flex-end; gap: 15px; color: var(--text-sub);">
-                <span>🎤</span>
-                <span>🎧</span>
-                <span>🔊</span>
-                <div style="width: 100px; height: 4px; background: #4f4f4f; border-radius: 2px;">
-                    <div style="width: 80%; height: 100%; background: white; border-radius: 2px;"></div>
-                </div>
-            </div>
+            <div class="btn-play" id="pPlay" onclick="togglePlay()">▶️</div>
         </div>
     </div>
 
     <script>
-        // --- DADOS E ESTADO ---
-        let users = JSON.parse(localStorage.getItem('mp_users')) || [];
-        let currentUser = null;
+        let users = JSON.parse(localStorage.getItem('mp_min_users')) || [];
         let isPlaying = false;
-        let taggedMusic = null;
 
         const musicDB = [
             { name: "Ana Castela", genre: "Sertanejo", hit: "Solteiro Forçado", icon: "🤠" },
             { name: "Gusttavo Lima", genre: "Sertanejo", hit: "Canudinho", icon: "🏛️" },
-            { name: "MC Ryan SP", genre: "Funk", hit: "Dentro da Hilux", icon: "🦈" },
             { name: "Anitta", genre: "Pop", hit: "Bellakeo", icon: "🇧🇷" },
             { name: "Matuê", genre: "Trap", hit: "Conexões de Máfia", icon: "🌵" },
             { name: "Marília Mendonça", genre: "Sertanejo", hit: "Leão", icon: "👑" },
-            { name: "Luísa Sonza", genre: "Pop", hit: "Chico", icon: "🔥" },
-            { name: "Thiaguinho", genre: "Pagode", hit: "Falta Você", icon: "🥁" },
-            { name: "Filipe Ret", genre: "Rap", hit: "Deus Perdoa", icon: "🎤" },
-            { name: "Ludmilla", genre: "Pagode/Funk", hit: "Maliciosa", icon: "✨" }
+            { name: "MC Ryan SP", genre: "Funk", hit: "Dentro da Hilux", icon: "🦈" }
         ];
 
-        let posts = [
-            { id: 1, author: "Eduardo Rodrigues", user: "edu", content: "Essa música da Ana Castela não sai da cabeça! 🤠🔥", music: musicDB[0], likes: 124, liked: false, time: "2h atrás" },
-            { id: 2, author: "Musica Play", user: "official", content: "Bem-vindos ao Mega Update! Explore os novos artistas e o player premium. 🚀", music: null, likes: 3500, liked: true, time: "5h atrás" }
-        ];
-
-        // --- NAVEGAÇÃO ---
         function showPage(pageId) {
             document.querySelectorAll('.auth-wrapper, #mainApp').forEach(el => el.classList.add('hidden'));
             document.getElementById(pageId).classList.remove('hidden');
         }
 
-        // --- AUTENTICAÇÃO ---
         function handleRegister() {
-            const name = document.getElementById('regFullName').value;
+            const name = document.getElementById('regName').value;
             const user = document.getElementById('regUser').value;
             const pass = document.getElementById('regPass').value;
-            if(!name || !user || !pass) return alert("Por favor, preencha todos os campos!");
-            
+            if(!name || !user || !pass) return alert("Preencha tudo!");
             const newUser = { name, user, pass };
             users.push(newUser);
-            localStorage.setItem('mp_users', JSON.stringify(users));
+            localStorage.setItem('mp_min_users', JSON.stringify(users));
             login(newUser);
         }
 
@@ -424,36 +275,13 @@
             const passVal = document.getElementById('loginPass').value;
             const found = users.find(u => u.user === userVal && u.pass === passVal);
             if(found) login(found);
-            else alert("Usuário ou senha incorretos!");
+            else alert("Erro!");
         }
 
         function login(user) {
-            currentUser = user;
             showPage('mainApp');
-            document.getElementById('headerUserName').innerText = user.name;
-            document.getElementById('profileName').innerText = user.name;
-            document.getElementById('profileUser').innerText = "@" + user.user;
-            document.getElementById('profileAvatar').innerText = user.name[0].toUpperCase();
-            renderTrending();
-            renderFeed();
-        }
-
-        function handleLogout() { location.reload(); }
-
-        // --- FUNCIONALIDADES ---
-        function renderTrending() {
-            const list = document.getElementById('trendingList');
-            list.innerHTML = '';
-            musicDB.slice(0, 5).forEach((m, i) => {
-                const div = document.createElement('div');
-                div.className = 'trending-item';
-                div.onclick = () => playMusic(m);
-                div.innerHTML = `
-                    <div class="trending-rank">${i+1}</div>
-                    <div class="trending-info"><h4>${m.name}</h4><p>${m.genre} • ${m.hit}</p></div>
-                `;
-                list.appendChild(div);
-            });
+            document.getElementById('userName').innerText = user.name;
+            document.getElementById('userAvatar').innerText = user.name[0].toUpperCase();
         }
 
         function handleSearch(e) {
@@ -461,105 +289,34 @@
             const overlay = document.getElementById('searchOverlay');
             if(query.length < 2) { overlay.classList.add('hidden'); return; }
 
-            const filtered = musicDB.filter(m => m.name.toLowerCase().includes(query) || m.genre.toLowerCase().includes(query));
+            const filtered = musicDB.filter(m => m.name.toLowerCase().includes(query));
             overlay.innerHTML = '';
             if(filtered.length > 0) {
                 filtered.forEach(m => {
                     const div = document.createElement('div');
-                    div.className = 'search-item';
-                    div.onclick = () => { playMusic(m); overlay.classList.add('hidden'); document.getElementById('searchInput').value = ''; };
-                    div.innerHTML = `<div class="search-item-img">${m.icon}</div><div><div style="font-weight:bold">${m.name}</div><div style="font-size:12px;color:var(--text-sub)">${m.genre}</div></div>`;
+                    div.className = 'result-item';
+                    div.onclick = () => play(m);
+                    div.innerHTML = `<span class="result-icon">${m.icon}</span><div><div style="font-weight:bold">${m.name}</div><div style="font-size:12px;color:var(--text-sub)">${m.hit}</div></div>`;
                     overlay.appendChild(div);
                 });
                 overlay.classList.remove('hidden');
-            } else {
-                overlay.innerHTML = '<div class="search-item">Nenhum artista encontrado</div>';
-                overlay.classList.remove('hidden');
             }
         }
 
-        function playMusic(m) {
-            document.getElementById('pTitle').innerText = m.hit || m.name;
+        function play(m) {
+            document.getElementById('pTitle').innerText = m.hit;
             document.getElementById('pArtist').innerText = m.name;
-            document.getElementById('pImg').innerText = m.icon;
+            document.getElementById('pIcon').innerText = m.icon;
+            document.getElementById('player').classList.remove('hidden');
             document.getElementById('pPlay').innerText = "⏸️";
             isPlaying = true;
-            taggedMusic = m;
-            document.getElementById('taggedMusic').innerText = "🎵 " + m.name;
-            
-            // Simular progresso
-            let prog = 0;
-            const interval = setInterval(() => {
-                if(!isPlaying) return;
-                prog += 0.5;
-                document.getElementById('pProgress').style.width = prog + "%";
-                if(prog >= 100) clearInterval(interval);
-            }, 500);
+            document.getElementById('searchOverlay').classList.add('hidden');
+            document.getElementById('searchInput').value = '';
         }
 
-        function togglePlayback() {
+        function togglePlay() {
             isPlaying = !isPlaying;
             document.getElementById('pPlay').innerText = isPlaying ? "⏸️" : "▶️";
-        }
-
-        function renderFeed() {
-            const feed = document.getElementById('feedContent');
-            feed.innerHTML = '';
-            posts.forEach(p => {
-                const div = document.createElement('div');
-                div.className = 'post-card';
-                div.innerHTML = `
-                    <div class="post-header">
-                        <div class="user-avatar">${p.author[0]}</div>
-                        <div class="user-meta"><h4>${p.author}</h4><span>@${p.user} • ${p.time}</span></div>
-                    </div>
-                    <div class="post-content">${p.content}</div>
-                    ${p.music ? `
-                        <div class="post-music-attach" onclick='playMusic(${JSON.stringify(p.music)})' style="cursor:pointer">
-                            <div style="font-size:24px">${p.music.icon}</div>
-                            <div><div style="font-weight:bold">${p.music.hit}</div><div style="font-size:12px;color:var(--text-sub)">${p.music.name}</div></div>
-                            <div style="margin-left:auto; color:var(--primary)">▶️ Ouvir</div>
-                        </div>
-                    ` : ''}
-                    <div class="post-actions">
-                        <button class="action-btn ${p.liked ? 'liked' : ''}" onclick="toggleLike(${p.id})">
-                            ${p.liked ? '❤️' : '🤍'} ${p.likes} Curtidas
-                        </button>
-                    </div>
-                `;
-                feed.appendChild(div);
-            });
-        }
-
-        function createNewPost() {
-            const content = document.getElementById('postContent').value;
-            if(!content.trim()) return;
-            
-            const newPost = {
-                id: Date.now(),
-                author: currentUser.name,
-                user: currentUser.user,
-                content: content,
-                music: taggedMusic,
-                likes: 0,
-                liked: false,
-                time: "Agora mesmo"
-            };
-            
-            posts.unshift(newPost);
-            document.getElementById('postContent').value = '';
-            taggedMusic = null;
-            document.getElementById('taggedMusic').innerText = "🎵 Marcar música";
-            renderFeed();
-        }
-
-        function toggleLike(id) {
-            const p = posts.find(post => post.id === id);
-            if(p) {
-                p.liked ? p.likes-- : p.likes++;
-                p.liked = !p.liked;
-                renderFeed();
-            }
         }
     </script>
 </body>
