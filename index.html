@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Musica Play | Minimal</title>
+    <title>Musica Play | Global</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         :root {
@@ -25,6 +25,7 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
         .hidden { display: none !important; }
@@ -84,6 +85,7 @@
             position: absolute;
             top: 0;
             width: 100%;
+            z-index: 10;
         }
 
         .logo-small { font-size: 20px; font-weight: 900; color: var(--primary); text-decoration: none; }
@@ -99,7 +101,6 @@
         }
         .avatar-small { width: 30px; height: 30px; background: var(--primary); border-radius: 50%; color: black; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; }
         .logout-link { color: var(--text-sub); font-size: 12px; cursor: pointer; text-decoration: none; }
-        .logout-link:hover { color: white; }
 
         .main-container {
             flex-grow: 1;
@@ -139,7 +140,7 @@
             background: var(--surface);
             border-radius: 12px;
             border: 1px solid var(--border);
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
             text-align: left;
             z-index: 100;
@@ -147,7 +148,7 @@
 
         .result-item { padding: 15px 25px; display: flex; align-items: center; gap: 15px; cursor: pointer; border-bottom: 1px solid var(--border); }
         .result-item:hover { background: #282828; }
-        .result-icon { font-size: 24px; }
+        .result-icon { font-size: 24px; width: 40px; height: 40px; background: #333; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
 
         /* --- PLAYER FIXO --- */
         .mini-player {
@@ -162,6 +163,7 @@
             border: 1px solid var(--border);
             box-shadow: 0 10px 40px rgba(0,0,0,0.8);
             max-width: 90%;
+            z-index: 200;
         }
 
         .player-info { display: flex; align-items: center; gap: 12px; }
@@ -177,7 +179,7 @@
     <div id="loginPage" class="auth-wrapper">
         <div class="auth-card">
             <h1>MUSICA PLAY</h1>
-            <p>Entre para descobrir novas batidas</p>
+            <p>Sua busca musical global</p>
             <div class="input-group">
                 <input type="text" id="loginUser" placeholder="Usuário" onkeypress="if(event.key === 'Enter') handleLogin()">
             </div>
@@ -193,7 +195,7 @@
     <div id="registerPage" class="auth-wrapper hidden">
         <div class="auth-card">
             <h1>CRIAR CONTA</h1>
-            <p>Sua jornada musical começa agora</p>
+            <p>Acesse milhões de artistas</p>
             <div class="input-group">
                 <input type="text" id="regName" placeholder="Nome Completo" onkeypress="if(event.key === 'Enter') handleRegister()">
             </div>
@@ -208,7 +210,7 @@
         </div>
     </div>
 
-    <!-- APP PRINCIPAL MINIMALISTA -->
+    <!-- APP PRINCIPAL -->
     <div id="mainApp" class="hidden">
         <header>
             <a href="#" class="logo-small">MUSICA PLAY</a>
@@ -220,15 +222,15 @@
         </header>
 
         <div class="main-container">
-            <h2 class="welcome-text">O que vamos ouvir?</h2>
+            <h2 class="welcome-text">Busca Global</h2>
             <div class="search-box">
                 <span class="icon">🔍</span>
-                <input type="text" id="searchInput" placeholder="Pesquisar artistas brasileiros..." onkeyup="handleSearch(event)">
+                <input type="text" id="searchInput" placeholder="Pesquise qualquer artista do mundo..." onkeyup="handleSearch(event)">
                 <div id="searchOverlay" class="search-results-overlay hidden"></div>
             </div>
         </div>
 
-        <!-- PLAYER MINIMALISTA -->
+        <!-- PLAYER -->
         <div id="player" class="mini-player hidden">
             <div class="player-info">
                 <div id="pIcon" style="font-size: 24px;">🎵</div>
@@ -242,16 +244,58 @@
     </div>
 
     <script>
-        let users = JSON.parse(localStorage.getItem('mp_min_users')) || [];
+        let users = JSON.parse(localStorage.getItem('mp_global_users')) || [];
         let isPlaying = false;
 
+        // BANCO DE DADOS EXPANDIDO (TOP ARTISTAS DO MUNDO)
         const musicDB = [
+            // BRASIL
             { name: "Ana Castela", genre: "Sertanejo", hit: "Solteiro Forçado", icon: "🤠" },
             { name: "Gusttavo Lima", genre: "Sertanejo", hit: "Canudinho", icon: "🏛️" },
             { name: "Anitta", genre: "Pop", hit: "Bellakeo", icon: "🇧🇷" },
             { name: "Matuê", genre: "Trap", hit: "Conexões de Máfia", icon: "🌵" },
             { name: "Marília Mendonça", genre: "Sertanejo", hit: "Leão", icon: "👑" },
-            { name: "MC Ryan SP", genre: "Funk", hit: "Dentro da Hilux", icon: "🦈" }
+            { name: "MC Ryan SP", genre: "Funk", hit: "Dentro da Hilux", icon: "🦈" },
+            { name: "Luísa Sonza", genre: "Pop", hit: "Chico", icon: "🔥" },
+            { name: "Thiaguinho", genre: "Pagode", hit: "Falta Você", icon: "🥁" },
+            { name: "Luan Santana", genre: "Sertanejo", hit: "Deja Vu", icon: "✨" },
+            { name: "Ludmilla", genre: "Pagode", hit: "Maliciosa", icon: "🎤" },
+
+            // INTERNACIONAL (USA/EUROPE)
+            { name: "Taylor Swift", genre: "Pop", hit: "Cruel Summer", icon: "🧣" },
+            { name: "The Weeknd", genre: "R&B/Pop", hit: "Blinding Lights", icon: "🌅" },
+            { name: "Drake", genre: "Rap", hit: "God's Plan", icon: "🦉" },
+            { name: "Billie Eilish", genre: "Alt Pop", hit: "What Was I Made For?", icon: "🥑" },
+            { name: "Travis Scott", genre: "Hip-Hop", hit: "FE!N", icon: "🌵" },
+            { name: "Dua Lipa", genre: "Pop", hit: "Houdini", icon: "🦋" },
+            { name: "Ed Sheeran", genre: "Pop", hit: "Shape of You", icon: "➕" },
+            { name: "Beyoncé", genre: "R&B", hit: "TEXAS HOLD 'EM", icon: "🐝" },
+            { name: "Post Malone", genre: "Pop/Rap", hit: "Sunflower", icon: "🌻" },
+            { name: "Bruno Mars", genre: "Pop/Funk", hit: "Uptown Funk", icon: "🎩" },
+            { name: "Rihanna", genre: "Pop/R&B", hit: "Diamonds", icon: "💎" },
+            { name: "Justin Bieber", genre: "Pop", hit: "Peaches", icon: "🍑" },
+            { name: "Katy Perry", genre: "Pop", hit: "Roar", icon: "🦁" },
+            { name: "Lady Gaga", genre: "Pop", hit: "Bad Romance", icon: "🎭" },
+            { name: "Ariana Grande", genre: "Pop", hit: "yes, and?", icon: "☁️" },
+
+            // LATIN (REGGAETON/TRAP)
+            { name: "Bad Bunny", genre: "Reggaeton", hit: "Monaco", icon: "🐰" },
+            { name: "Karol G", genre: "Reggaeton", hit: "PROVENZA", icon: "🌸" },
+            { name: "J Balvin", genre: "Reggaeton", hit: "Mi Gente", icon: "⚡" },
+            { name: "Shakira", genre: "Latin Pop", hit: "Bzrp Music Sessions #53", icon: "🐺" },
+            { name: "Peso Pluma", genre: "Regional Mexican", hit: "Ella Baila Sola", icon: "🕷️" },
+
+            // K-POP
+            { name: "BTS", genre: "K-Pop", hit: "Dynamite", icon: "💜" },
+            { name: "BLACKPINK", genre: "K-Pop", hit: "How You Like That", icon: "💗" },
+            { name: "NewJeans", genre: "K-Pop", hit: "Super Shy", icon: "🐰" },
+            { name: "Stray Kids", genre: "K-Pop", hit: "LALALALA", icon: "🌟" },
+
+            // ROCK/CLASSICS
+            { name: "Queen", genre: "Rock", hit: "Bohemian Rhapsody", icon: "👑" },
+            { name: "Coldplay", genre: "Alt Rock", hit: "Yellow", icon: "🌙" },
+            { name: "Imagine Dragons", genre: "Rock", hit: "Believer", icon: "🐉" },
+            { name: "Arctic Monkeys", genre: "Indie Rock", hit: "Do I Wanna Know?", icon: "❄️" }
         ];
 
         function showPage(pageId) {
@@ -266,7 +310,7 @@
             if(!name || !user || !pass) return alert("Preencha tudo!");
             const newUser = { name, user, pass };
             users.push(newUser);
-            localStorage.setItem('mp_min_users', JSON.stringify(users));
+            localStorage.setItem('mp_global_users', JSON.stringify(users));
             login(newUser);
         }
 
@@ -289,16 +333,19 @@
             const overlay = document.getElementById('searchOverlay');
             if(query.length < 2) { overlay.classList.add('hidden'); return; }
 
-            const filtered = musicDB.filter(m => m.name.toLowerCase().includes(query));
+            const filtered = musicDB.filter(m => m.name.toLowerCase().includes(query) || m.genre.toLowerCase().includes(query));
             overlay.innerHTML = '';
             if(filtered.length > 0) {
                 filtered.forEach(m => {
                     const div = document.createElement('div');
                     div.className = 'result-item';
                     div.onclick = () => play(m);
-                    div.innerHTML = `<span class="result-icon">${m.icon}</span><div><div style="font-weight:bold">${m.name}</div><div style="font-size:12px;color:var(--text-sub)">${m.hit}</div></div>`;
+                    div.innerHTML = `<div class="result-icon">${m.icon}</div><div><div style="font-weight:bold">${m.name}</div><div style="font-size:12px;color:var(--text-sub)">${m.hit} • ${m.genre}</div></div>`;
                     overlay.appendChild(div);
                 });
+                overlay.classList.remove('hidden');
+            } else {
+                overlay.innerHTML = '<div class="result-item">Nenhum artista global encontrado</div>';
                 overlay.classList.remove('hidden');
             }
         }
