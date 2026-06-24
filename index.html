@@ -239,11 +239,11 @@
             <div class="auth-form">
                 <div class="input-group">
                     <label>Usuário</label>
-                    <input type="text" id="loginUser" placeholder="Seu nome de usuário">
+                    <input type="text" id="loginUser" placeholder="Seu nome de usuário" onkeypress="if(event.key === 'Enter') handleLogin()">
                 </div>
                 <div class="input-group">
                     <label>Senha</label>
-                    <input type="password" id="loginPass" placeholder="Sua senha secreta">
+                    <input type="password" id="loginPass" placeholder="Sua senha secreta" onkeypress="if(event.key === 'Enter') handleLogin()">
                 </div>
                 <button class="btn-primary" onclick="handleLogin()">Entrar Agora</button>
             </div>
@@ -262,15 +262,15 @@
             <div class="auth-form">
                 <div class="input-group">
                     <label>Nome Completo</label>
-                    <input type="text" id="regFullName" placeholder="Como você quer ser chamado?">
+                    <input type="text" id="regFullName" placeholder="Como você quer ser chamado?" onkeypress="if(event.key === 'Enter') handleRegister()">
                 </div>
                 <div class="input-group">
                     <label>Nome de Usuário</label>
-                    <input type="text" id="regUser" placeholder="Ex: joao_musica">
+                    <input type="text" id="regUser" placeholder="Ex: joao_musica" onkeypress="if(event.key === 'Enter') handleRegister()">
                 </div>
                 <div class="input-group">
                     <label>Senha</label>
-                    <input type="password" id="regPass" placeholder="Crie uma senha forte">
+                    <input type="password" id="regPass" placeholder="Crie uma senha forte" onkeypress="if(event.key === 'Enter') handleRegister()">
                 </div>
                 <button class="btn-primary" onclick="handleRegister()">Cadastrar e Entrar</button>
             </div>
