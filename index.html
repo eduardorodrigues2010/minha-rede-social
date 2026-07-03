@@ -370,22 +370,37 @@
         }
 
         function handleRegister() {
-            const name = document.getElementById('regName').value;
-            const user = document.getElementById('regUser').value;
-            const pass = document.getElementById('regPass').value;
-            if(!name || !user || !pass) return alert("Preencha tudo!");
+            const name = document.getElementById('regName').value.trim();
+            const user = document.getElementById('regUser').value.trim();
+            const pass = document.getElementById('regPass').value.trim();
+            
+            if(!name || !user || !pass) return alert("Por favor, preencha todos os campos!");
+            
+            // Verifica se o usuário já existe
+            if(users.some(u => u.user === user)) return alert("Este nome de usuário já está em uso!");
+            
             const newUser = { name, user, pass };
             users.push(newUser);
             localStorage.setItem('sp_users', JSON.stringify(users));
+            
+            alert("Conta criada com sucesso! Entrando...");
             login(newUser);
         }
 
         function handleLogin() {
-            const userVal = document.getElementById('loginUser').value;
-            const passVal = document.getElementById('loginPass').value;
+            const userVal = document.getElementById('loginUser').value.trim();
+            const passVal = document.getElementById('loginPass').value.trim();
+            
+            // Recarrega usuários do localStorage para garantir que pegamos as contas criadas anteriormente
+            users = JSON.parse(localStorage.getItem('sp_users')) || [];
+            
             const found = users.find(u => u.user === userVal && u.pass === passVal);
-            if(found) login(found);
-            else alert("Erro!");
+            
+            if(found) {
+                login(found);
+            } else {
+                alert("Usuário ou senha incorretos! Se você ainda não tem uma conta, clique em 'Criar conta'.");
+            }
         }
 
         function login(user) {
